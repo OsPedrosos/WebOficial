@@ -2,50 +2,121 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Calendario Simple</title>
+  <title>Calendario con Eventos</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
       text-align: center;
+      background-color: #f9f9f9;
     }
+
+    h1 {
+      font-size: 60px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #666;
+    }
+
     table {
       margin: auto;
       border-collapse: collapse;
+      margin-top: 30px;
     }
-    td {
+
+    th, td {
       border: 1px solid #ccc;
       width: 40px;
       height: 40px;
       text-align: center;
+      position: relative;
+      background-color: white;
     }
+
     .hoy {
       background-color: #4CAF50;
       color: white;
     }
+
     .evento {
       background-color: #f44336;
       color: white;
+      cursor: pointer;
+    }
+
+    .tooltip {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      border-radius: 5px;
+      padding: 6px 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .evento:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 
-  <h1>Mi Calendario</h1>
+  <h1>Pedrosos</h1>
+  <h2>Calendario dos Pedrosos</h2>
+
   <div id="calendario"></div>
 
   <script>
-    const eventos = [5, 12, 18]; // Días con eventos (puedes personalizar)
+    // 🎉 Eventos con datos detallados
+    const eventos = {
+     
+      "2025-08-01": {
+        etiqueta: "Feira do Albariño",
+        ubicacion: "Cambados"
+      },		
+      "2025-08-02": {
+        etiqueta: "Feira do Albariño",
+        ubicacion: "Cambados"
+      },
+	 "2025-08-07": {
+        etiqueta: "Grandes Festas da Pedrosa",
+        ubicacion: "A Pedrosa"
+      },
+      "2025-08-08": {
+        etiqueta: "Grandes Festas da Pedrosa",
+        ubicacion: "A Pedrosa"
+      },
+      "2025-08-09": {
+        etiqueta: "Feira do Viño Monterrei",
+        ubicacion: "Verín"
+      }
+    };
 
     function crearCalendario(mes, año) {
       const diasMes = new Date(año, mes + 1, 0).getDate();
-      const primerDia = new Date(año, mes, 1).getDay(); // 0 = domingo
+      let primerDia = new Date(año, mes, 1).getDay();
+      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
 
       const hoy = new Date();
       const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
 
       let html = '<table><tr>';
-      const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
       diasSemana.forEach(dia => {
         html += `<th>${dia}</th>`;
@@ -58,13 +129,24 @@
 
       for (let dia = 1; dia <= diasMes; dia++) {
         const esHoy = esEsteMes && dia === hoy.getDate();
-        const tieneEvento = eventos.includes(dia);
+        const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const tieneEvento = eventos.hasOwnProperty(fechaStr);
 
         let clase = '';
+        let tooltip = '';
+
         if (esHoy) clase = 'hoy';
         else if (tieneEvento) clase = 'evento';
 
-        html += `<td class="${clase}">${dia}</td>`;
+        if (tieneEvento) {
+          const evento = eventos[fechaStr];
+          tooltip = `<div class="tooltip">
+                       <strong>${evento.etiqueta}</strong><br>
+                       <small>${evento.ubicacion}</small>
+                     </div>`;
+        }
+
+        html += `<td class="${clase}">${dia}${tooltip}</td>`;
 
         if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
       }
