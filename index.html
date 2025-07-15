@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario Simple</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    table {
+      margin: auto;
+      border-collapse: collapse;
+    }
+    td {
+      border: 1px solid #ccc;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+    }
+    .hoy {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .evento {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mi Calendario</h1>
+  <div id="calendario"></div>
+
+  <script>
+    const eventos = [5, 12, 18]; // Días con eventos (puedes personalizar)
+
+    function crearCalendario(mes, año) {
+      const diasMes = new Date(año, mes + 1, 0).getDate();
+      const primerDia = new Date(año, mes, 1).getDay(); // 0 = domingo
+
+      const hoy = new Date();
+      const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
+
+      let html = '<table><tr>';
+      const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+      diasSemana.forEach(dia => {
+        html += `<th>${dia}</th>`;
+      });
+      html += '</tr><tr>';
+
+      for (let i = 0; i < primerDia; i++) {
+        html += '<td></td>';
+      }
+
+      for (let dia = 1; dia <= diasMes; dia++) {
+        const esHoy = esEsteMes && dia === hoy.getDate();
+        const tieneEvento = eventos.includes(dia);
+
+        let clase = '';
+        if (esHoy) clase = 'hoy';
+        else if (tieneEvento) clase = 'evento';
+
+        html += `<td class="${clase}">${dia}</td>`;
+
+        if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
+      }
+
+      html += '</tr></table>';
+      document.getElementById('calendario').innerHTML = html;
+    }
+
+    const fechaActual = new Date();
+    crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
+  </script>
+
+</body>
+</html>
