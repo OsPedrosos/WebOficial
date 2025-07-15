@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Os Pedrosos</title>
   <style>
     body {
@@ -14,6 +15,14 @@
       color: #2c3e50;
       min-height: 100vh;
       margin: 0;
+    }
+
+    img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px;
     }
 
     h1 {
@@ -69,6 +78,7 @@
       justify-content: center;
       align-items: center;
       gap: 15px;
+      flex-wrap: wrap;
     }
 
     .navegacion button {
@@ -240,36 +250,42 @@
       box-shadow: 0 6px 14px rgba(33, 125, 187, 0.4);
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       h1 {
         font-size: 48px;
       }
       h2 {
-        font-size: 18px;
-        margin-bottom: 20px;
-      }
-      table {
-        width: 100%;
-        max-width: 100%;
-      }
-      #lista-eventos {
-        max-width: 100%;
-        padding: 15px 20px;
-        margin-top: 25px;
-      }
-      #lista-eventos li {
-        font-size: 14px;
-        padding: 8px 12px;
+        font-size: 20px;
       }
       .botones-grid {
         grid-template-columns: 1fr;
+      }
+      .boton-web {
+        height: 120px;
+        font-size: 18px;
+      }
+      .navegacion {
+        flex-direction: column;
+        gap: 10px;
+      }
+      #mes-anio {
+        font-size: 22px;
+      }
+      table {
+        width: 100%;
+        font-size: 14px;
+      }
+      #lista-eventos {
+        max-width: 100%;
+        padding: 15px;
+        font-size: 14px;
       }
     }
   </style>
 </head>
 <body>
 
-<img src="titulo.png" alt="Pedrosos" style="width: 2500px; height: auto;">
+  <img src="titulo.png" alt="Pedrosos" />
 
   <div class="botones-grid">
     <a class="boton-web" href="https://example.com/uno" target="_blank" style="background-image: url('https://via.placeholder.com/300x150?text=Boton+1');">Web 1</a>
@@ -293,47 +309,21 @@
 
   <script>
     const eventos = {
-      "2025-07-18": {
-        etiqueta: "Festa de Xinzo",
-        ubicacion: "Xinzo de Limia"
-      },
-      "2025-07-19": {
-        etiqueta: "Festas da Xironda",
-        ubicacion: "Ao Lado da Pedrosa"
-      },
-      "2025-08-01": {
-        etiqueta: "Feira do Albariño",
-        ubicacion: "Cambados"
-      },
-      "2025-08-02": {
-        etiqueta: "Feira do Albariño",
-        ubicacion: "Cambados"
-      },
-      "2025-08-07": {
-        etiqueta: "Grandes Festas da Pedrosa",
-        ubicacion: "A Pedrosa"
-      },
-      "2025-08-08": {
-        etiqueta: "Grandes Festas da Pedrosa",
-        ubicacion: "A Pedrosa"
-      },
-      "2025-08-09": {
-        etiqueta: "Feira do Viño Monterrei",
-        ubicacion: "Verín"
-      }
+      "2025-07-18": { etiqueta: "Festa de Xinzo", ubicacion: "Xinzo de Limia" },
+      "2025-07-19": { etiqueta: "Festas da Xironda", ubicacion: "Ao Lado da Pedrosa" },
+      "2025-08-01": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+      "2025-08-02": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+      "2025-08-07": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+      "2025-08-08": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+      "2025-08-09": { etiqueta: "Feira do Viño Monterrei", ubicacion: "Verín" }
     };
 
     let mesActual, añoActual;
-
-    const nombresMeses = [
-      "Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño",
-      "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"
-    ];
+    const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
 
     function crearCalendario(mes, año) {
       mesActual = mes;
       añoActual = año;
-
       document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
 
       const diasMes = new Date(año, mes + 1, 0).getDate();
@@ -345,21 +335,15 @@
 
       let html = '<table><tr>';
       const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
-
-      diasSemana.forEach(dia => {
-        html += `<th>${dia}</th>`;
-      });
+      diasSemana.forEach(dia => html += `<th>${dia}</th>`);
       html += '</tr><tr>';
 
-      for (let i = 0; i < primerDia; i++) {
-        html += '<td></td>';
-      }
+      for (let i = 0; i < primerDia; i++) html += '<td></td>';
 
       for (let dia = 1; dia <= diasMes; dia++) {
         const esHoy = esEsteMes && dia === hoy.getDate();
         const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
         const tieneEvento = eventos.hasOwnProperty(fechaStr);
-
         let clase = '';
         let tooltip = '';
 
@@ -368,37 +352,27 @@
 
         if (tieneEvento) {
           const evento = eventos[fechaStr];
-          tooltip = `<div class="tooltip">
-                       <strong>${evento.etiqueta}</strong><br>
-                       <small>${evento.ubicacion}</small>
-                     </div>`;
+          tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
         }
 
         html += `<td class="${clase}">${dia}${tooltip}</td>`;
-
         if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
       }
 
       html += '</tr></table>';
       document.getElementById('calendario').innerHTML = html;
-
       mostrarEventosMes(mes, año);
     }
 
     function mostrarEventosMes(mes, año) {
       const ul = document.getElementById('eventos-mes');
       ul.innerHTML = '';
-
       const eventosDelMes = Object.entries(eventos)
         .filter(([fecha]) => {
-          const [a, m, d] = fecha.split('-').map(Number);
+          const [a, m] = fecha.split('-').map(Number);
           return a === año && (m - 1) === mes;
         })
-        .sort((a, b) => {
-          const diaA = Number(a[0].split('-')[2]);
-          const diaB = Number(b[0].split('-')[2]);
-          return diaA - diaB;
-        });
+        .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
 
       if (eventosDelMes.length === 0) {
         ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
@@ -415,13 +389,8 @@
 
     function cambiarMes(direccion) {
       mesActual += direccion;
-      if (mesActual < 0) {
-        mesActual = 11;
-        añoActual--;
-      } else if (mesActual > 11) {
-        mesActual = 0;
-        añoActual++;
-      }
+      if (mesActual < 0) { mesActual = 11; añoActual--; }
+      else if (mesActual > 11) { mesActual = 0; añoActual++; }
       crearCalendario(mesActual, añoActual);
     }
 
