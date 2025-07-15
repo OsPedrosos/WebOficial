@@ -23,10 +23,21 @@
       color: #666;
     }
 
+    .navegacion {
+      margin: 20px;
+    }
+
+    .navegacion button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
     table {
       margin: auto;
       border-collapse: collapse;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     th, td {
@@ -72,19 +83,42 @@
       visibility: visible;
       opacity: 1;
     }
+
+    #mes-anio {
+      font-size: 28px;
+      margin-top: 10px;
+      color: #444;
+    }
   </style>
 </head>
 <body>
 
   <h1>Pedrosos</h1>
-  <h2>Calendario dos Pedrosos</h2>
+  <h2>Calendario de eventos</h2>
+
+  <div class="navegacion">
+    <button onclick="cambiarMes(-1)">← Mes anterior</button>
+    <span id="mes-anio"></span>
+    <button onclick="cambiarMes(1)">Mes siguiente →</button>
+  </div>
 
   <div id="calendario"></div>
 
-  <script>
+<script>
     // 🎉 Eventos con datos detallados
     const eventos = {
-     
+	
+	
+      "2025-07-18": {
+        etiqueta: "Festa de Xinzo",
+        ubicacion: "Xinzo de Limia"
+      },	
+	
+      "2025-07-19": {
+        etiqueta: "Festas da Xironda",
+        ubicacion: "Ao Lado da Pedrosa"
+      }, 
+
       "2025-08-01": {
         etiqueta: "Feira do Albariño",
         ubicacion: "Cambados"
@@ -107,7 +141,20 @@
       }
     };
 
+    // Variables globales para controlar mes/año actual mostrado
+    let mesActual, añoActual;
+
+    const nombresMeses = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
     function crearCalendario(mes, año) {
+      mesActual = mes;
+      añoActual = año;
+
+      document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
+
       const diasMes = new Date(año, mes + 1, 0).getDate();
       let primerDia = new Date(año, mes, 1).getDay();
       primerDia = (primerDia === 0) ? 6 : primerDia - 1;
@@ -155,6 +202,19 @@
       document.getElementById('calendario').innerHTML = html;
     }
 
+    function cambiarMes(direccion) {
+      mesActual += direccion;
+      if (mesActual < 0) {
+        mesActual = 11;
+        añoActual--;
+      } else if (mesActual > 11) {
+        mesActual = 0;
+        añoActual++;
+      }
+      crearCalendario(mesActual, añoActual);
+    }
+
+    // Inicializar con el mes actual
     const fechaActual = new Date();
     crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
   </script>
