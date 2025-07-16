@@ -137,9 +137,21 @@
   <!-- Botón hamburguesa -->
   <button class="openbtn" onclick="openNav()">☰</button>
 
-  <!-- Dado 3D -->
+  <!-- Dado 3D principal -->
   <div class="scene">
     <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
+      <div class="face face1">1</div>
+      <div class="face face2">2</div>
+      <div class="face face3">3</div>
+      <div class="face face4">4</div>
+      <div class="face face5">5</div>
+      <div class="face face6">6</div>
+    </div>
+  </div>
+
+  <!-- Segundo dado -->
+  <div class="scene" style="margin-top: 50px;">
+    <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
       <div class="face face1">1</div>
       <div class="face face2">2</div>
       <div class="face face3">3</div>
@@ -158,9 +170,8 @@
       document.getElementById("sidebar").style.width = "0";
     }
 
-    const dice = document.getElementById('dice');
-
-    function rollDice() {
+    // Función para lanzar un dado pasando el elemento como parámetro
+    function rollDice(diceElement) {
       const result = Math.floor(Math.random() * 6) + 1;
       const rotations = {
         1: [0, 0],
@@ -175,11 +186,17 @@
       const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
       const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
 
-      dice.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
+      diceElement.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
     }
 
-    dice.addEventListener('click', rollDice);
-    dice.addEventListener('touchstart', rollDice);
+    const dice1 = document.getElementById('dice');
+    const dice2 = document.getElementById('dice2');
+
+    dice1.addEventListener('click', () => rollDice(dice1));
+    dice1.addEventListener('touchstart', () => rollDice(dice1));
+
+    dice2.addEventListener('click', () => rollDice(dice2));
+    dice2.addEventListener('touchstart', () => rollDice(dice2));
   </script>
 
 </body>
