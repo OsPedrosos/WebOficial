@@ -1,74 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>O Dado dos Pedrosos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Os Pedrosos - Dado y Menú</title>
   <style>
-    /* ----------- MENÚ DESPLEGABLE ----------- */
-    nav {
-      background-color: #2c3e50;
-      padding: 10px 0;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    nav li {
-      position: relative;
-    }
-
-    nav a {
-      display: block;
-      padding: 12px 20px;
-      color: #ecf0f1;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #34495e;
-    }
-
-    nav ul ul {
-      display: none;
-      position: absolute;
-      background-color: #34495e;
-      top: 100%;
-      left: 0;
-      min-width: 160px;
-      z-index: 1000;
-      flex-direction: column;
-    }
-
-    nav li:hover > ul {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ----------- DADO 3D ----------- */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
       text-align: center;
-      background-color: #f0f0f0;
+      background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
+                  url('41515.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #2c3e50;
+      min-height: 100vh;
       margin: 0;
-      padding: 0;
     }
 
-    .container {
-      padding: 40px 20px;
+    /* Menú lateral */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      background-color: #2c3e50;
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding-top: 60px;
     }
 
+    .sidebar a {
+      padding: 12px 24px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #f1f1f1;
+      display: block;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    .openbtn {
+      position: fixed;      /* Lo posiciona respecto al viewport */
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      z-index: 1100;         /* Más alto que el sidebar */
+    }
+
+    .closebtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Dado 3D */
     .scene {
       width: 150px;
       height: 150px;
-      margin: 0 auto 30px;
+      margin: 100px auto 30px;
       perspective: 600px;
     }
 
@@ -79,6 +82,7 @@
       transform-style: preserve-3d;
       transform: rotateX(0deg) rotateY(0deg);
       transition: transform 1s ease-in-out;
+      cursor: pointer;
     }
 
     .face {
@@ -95,8 +99,10 @@
       justify-content: center;
       border-radius: 16px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      user-select: none;
     }
 
+    /* Caras del dado */
     .face1 { transform: rotateY(0deg) translateZ(75px); }
     .face2 { transform: rotateY(90deg) translateZ(75px); }
     .face3 { transform: rotateY(180deg) translateZ(75px); }
@@ -104,89 +110,54 @@
     .face5 { transform: rotateX(-90deg) translateZ(75px); }
     .face6 { transform: rotateX(90deg) translateZ(75px); }
 
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #1f5a8a;
-      box-shadow: 0 6px 12px rgba(31, 90, 138, 0.5);
-    }
-
     @media (max-width: 768px) {
       .scene {
         width: 120px;
         height: 120px;
+        margin-top: 80px;
       }
-
       .face {
         width: 120px;
         height: 120px;
         font-size: 36px;
-      }
-
-      nav ul {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      nav ul ul {
-        position: static;
-        display: none;
-      }
-
-      nav li:hover > ul {
-        display: block;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- MENÚ DE NAVEGACIÓN -->
-  <nav>
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li>
-        <a href="#">Juegos</a>
-        <ul>
-          <li><a href="dado.html">Dado 3D</a></li>
-          <li><a href="cartas.html">Cartas</a></li>
-          <li><a href="memoria.html">Memoria</a></li>
-        </ul>
-      </li>
-      <li><a href="contacto.html">Contacto</a></li>
-    </ul>
-  </nav>
-
-  <!-- CONTENIDO PRINCIPAL -->
-  <div class="container">
-    <h1>Dado 3D</h1>
-
-    <div class="scene">
-      <div class="dice" id="dice">
-        <div class="face face1">1</div>
-        <div class="face face2">2</div>
-        <div class="face face3">3</div>
-        <div class="face face4">4</div>
-        <div class="face face5">5</div>
-        <div class="face face6">6</div>
-      </div>
-    </div>
-
-    <button onclick="rollDice()">Lanzar dado</button>
+  <!-- Menú lateral -->
+  <div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="index.html">Inicio</a>
+    <a href="noticias.html">Noticias</a>
+    <a href="galeria.html">Galería</a>
   </div>
 
-  <!-- SCRIPT -->
+  <!-- Botón hamburguesa -->
+  <button class="openbtn" onclick="openNav()">☰</button>
+
+  <!-- Dado 3D -->
+  <div class="scene">
+    <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
+      <div class="face face1">1</div>
+      <div class="face face2">2</div>
+      <div class="face face3">3</div>
+      <div class="face face4">4</div>
+      <div class="face face5">5</div>
+      <div class="face face6">6</div>
+    </div>
+  </div>
+
   <script>
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+
     const dice = document.getElementById('dice');
 
     function rollDice() {
@@ -197,12 +168,18 @@
         3: [0, 180],
         4: [0, -90],
         5: [-90, 0],
-        6: [90, 0],
+        6: [90, 0]
       };
 
       const [x, y] = rotations[result];
-      dice.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
+      const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
+      const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
+
+      dice.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
     }
+
+    dice.addEventListener('click', rollDice);
+    dice.addEventListener('touchstart', rollDice);
   </script>
 
 </body>
