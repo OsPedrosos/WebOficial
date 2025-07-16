@@ -27,8 +27,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transform: rotateX(0deg) rotateY(0deg);
-      transition: transform 1s ease-in-out;
+      transition: transform 1s cubic-bezier(.25,.1,.1,1);
       cursor: pointer;
       user-select: none;
     }
@@ -40,10 +39,7 @@
       border: 3px solid #bbb;
       border-radius: 18px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      display: block;
     }
-
-    /* 3x3 Grid for dots, but positioned absolutely for classic look */
     .dot {
       position: absolute;
       width: 32px;
@@ -51,10 +47,8 @@
       background: #222;
       border-radius: 50%;
       box-shadow: 0 0 6px rgba(0,0,0,0.3);
-      opacity: 0;
-      transition: opacity 0.2s;
     }
-    /* Positions for a 3x3 grid */
+    /* Posiciones clásicas */
     .pos-tl { top: 30px; left: 30px; }
     .pos-tc { top: 30px; left: 84px; }
     .pos-tr { top: 30px; left: 138px; }
@@ -65,13 +59,12 @@
     .pos-bc { top: 138px; left: 84px; }
     .pos-br { top: 138px; left: 138px; }
 
-    /* Caras del dado */
-    .face1 { transform: rotateY(0deg) translateZ(100px); }
-    .face2 { transform: rotateY(90deg) translateZ(100px); }
-    .face3 { transform: rotateY(180deg) translateZ(100px); }
-    .face4 { transform: rotateY(-90deg) translateZ(100px); }
-    .face5 { transform: rotateX(-90deg) translateZ(100px); }
-    .face6 { transform: rotateX(90deg) translateZ(100px); }
+    .face1 { transform: rotateY(0deg) translateZ(100px);}
+    .face2 { transform: rotateY(90deg) translateZ(100px);}
+    .face3 { transform: rotateY(180deg) translateZ(100px);}
+    .face4 { transform: rotateY(-90deg) translateZ(100px);}
+    .face5 { transform: rotateX(-90deg) translateZ(100px);}
+    .face6 { transform: rotateX(90deg) translateZ(100px);}
 
     @media (max-width: 768px) {
       .scene { width: 120px; height: 120px; margin-top: 80px; }
@@ -144,19 +137,6 @@
     </div>
   </div>
   <script>
-    // Muestra solo los puntos de la cara visible
-    function showDots(diceElem, faceIdx) {
-      for (let i = 0; i < 6; i++) {
-        const face = diceElem.children[i];
-        if (i === faceIdx) {
-          // Mostrar los dots de esta cara
-          for (const dot of face.children) dot.style.opacity = "1";
-        } else {
-          // Ocultar los dots de las otras caras
-          for (const dot of face.children) dot.style.opacity = "0";
-        }
-      }
-    }
     function rollDice(diceElem) {
       const value = Math.floor(Math.random() * 6) + 1;
       const rotations = {
@@ -172,11 +152,9 @@
       const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
       const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
       diceElem.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
-      showDots(diceElem, value - 1);
     }
     function initDice(diceElem) {
       diceElem.style.transform = `rotateX(0deg) rotateY(0deg)`;
-      showDots(diceElem, 0);
     }
     const dice1 = document.getElementById('dice');
     const dice2 = document.getElementById('dice2');
