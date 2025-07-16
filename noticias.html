@@ -5,6 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Duelo</title>
   <style>
+
+
+/* Menú lateral */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: #2c3e50;
+  overflow-x: hidden;
+  transition: 0.4s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #34495e;
+}
+
+.openbtn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  z-index: 1100;
+}
+
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
@@ -83,6 +136,18 @@
   </style>
 </head>
 <body>
+
+  <!-- Menú lateral -->
+<div id="sidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="index.html">Inicio</a>
+  <a href="noticias.html">Duelo</a>
+</div>
+
+<!-- Botón hamburguesa -->
+<button class="openbtn" onclick="openNav()">☰</button>
+
+  
   <div class="scene">
     <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
       <!-- Cara 1 -->
@@ -137,6 +202,15 @@
     </div>
   </div>
   <script>
+
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+    
     function rollDice(diceElem) {
       const value = Math.floor(Math.random() * 6) + 1;
       const rotations = {
