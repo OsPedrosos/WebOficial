@@ -308,96 +308,96 @@
     <ul id="eventos-mes"></ul>
   </div>
 
-  <script>
-    const eventos = {
-      "2025-07-18": { etiqueta: "Festa de Xinzo", ubicacion: "Xinzo de Limia" },
-      "2025-07-19": { etiqueta: "Festas da Xironda", ubicacion: "Ao Lado da Pedrosa" },
-      "2025-08-01": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
-      "2025-08-02": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
-      "2025-08-07": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
-      "2025-08-08": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
-      "2025-08-09": { etiqueta: "Feira do Viño Monterrei", ubicacion: "Verín" }
-    };
+<script>
+  const eventos = {
+    "2025-07-18": { etiqueta: "Festa de Xinzo", ubicacion: "Xinzo de Limia" },
+    "2025-07-19": { etiqueta: "Festas da Xironda", ubicacion: "Ao Lado da Pedrosa" },
+    "2025-08-01": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+    "2025-08-02": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+    "2025-08-07": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+    "2025-08-08": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+    "2025-08-09": { etiqueta: "Feira do Viño Monterrei", ubicacion: "Verín" }
+  };
 
-    let mesActual, añoActual;
-    const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
+  let mesActual, añoActual;
+  const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
 
-    function crearCalendario(mes, año) {
-      mesActual = mes;
-      añoActual = año;
-      document.getElementById('mes-anio').textContent = ${nombresMeses[mes]} ${año};
+  function crearCalendario(mes, año) {
+    mesActual = mes;
+    añoActual = año;
+    document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
 
-      const diasMes = new Date(año, mes + 1, 0).getDate();
-      let primerDia = new Date(año, mes, 1).getDay();
-      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+    const diasMes = new Date(año, mes + 1, 0).getDate();
+    let primerDia = new Date(año, mes, 1).getDay();
+    primerDia = (primerDia === 0) ? 6 : primerDia - 1;
 
-      const hoy = new Date();
-      const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
+    const hoy = new Date();
+    const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
 
-      let html = '<table><tr>';
-      const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
-      diasSemana.forEach(dia => html += <th>${dia}</th>);
-      html += '</tr><tr>';
+    let html = '<table><tr>';
+    const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
+    diasSemana.forEach(dia => html += `<th>${dia}</th>`);
+    html += '</tr><tr>';
 
-      for (let i = 0; i < primerDia; i++) html += '<td></td>';
+    for (let i = 0; i < primerDia; i++) html += '<td></td>';
 
-      for (let dia = 1; dia <= diasMes; dia++) {
-        const esHoy = esEsteMes && dia === hoy.getDate();
-        const fechaStr = ${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')};
-        const tieneEvento = eventos.hasOwnProperty(fechaStr);
-        let clase = '';
-        let tooltip = '';
+    for (let dia = 1; dia <= diasMes; dia++) {
+      const esHoy = esEsteMes && dia === hoy.getDate();
+      const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+      const tieneEvento = eventos.hasOwnProperty(fechaStr);
+      let clase = '';
+      let tooltip = '';
 
-        if (esHoy) clase = 'hoy';
-        else if (tieneEvento) clase = 'evento';
+      if (esHoy) clase = 'hoy';
+      else if (tieneEvento) clase = 'evento';
 
-        if (tieneEvento) {
-          const evento = eventos[fechaStr];
-          tooltip = <div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>;
-        }
-
-        html += <td class="${clase}">${dia}${tooltip}</td>;
-        if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
+      if (tieneEvento) {
+        const evento = eventos[fechaStr];
+        tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
       }
 
-      html += '</tr></table>';
-      document.getElementById('calendario').innerHTML = html;
-      mostrarEventosMes(mes, año);
+      html += `<td class="${clase}">${dia}${tooltip}</td>`;
+      if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
     }
 
-    function mostrarEventosMes(mes, año) {
-      const ul = document.getElementById('eventos-mes');
-      ul.innerHTML = '';
-      const eventosDelMes = Object.entries(eventos)
-        .filter(([fecha]) => {
-          const [a, m] = fecha.split('-').map(Number);
-          return a === año && (m - 1) === mes;
-        })
-        .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
+    html += '</tr></table>';
+    document.getElementById('calendario').innerHTML = html;
+    mostrarEventosMes(mes, año);
+  }
 
-      if (eventosDelMes.length === 0) {
-        ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
-        return;
-      }
+  function mostrarEventosMes(mes, año) {
+    const ul = document.getElementById('eventos-mes');
+    ul.innerHTML = '';
+    const eventosDelMes = Object.entries(eventos)
+      .filter(([fecha]) => {
+        const [a, m] = fecha.split('-').map(Number);
+        return a === año && (m - 1) === mes;
+      })
+      .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
 
-      eventosDelMes.forEach(([fecha, evento]) => {
-        const dia = Number(fecha.split('-')[2]);
-        const li = document.createElement('li');
-        li.textContent = ${dia} - ${evento.etiqueta} (${evento.ubicacion});
-        ul.appendChild(li);
-      });
+    if (eventosDelMes.length === 0) {
+      ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
+      return;
     }
 
-    function cambiarMes(direccion) {
-      mesActual += direccion;
-      if (mesActual < 0) { mesActual = 11; añoActual--; }
-      else if (mesActual > 11) { mesActual = 0; añoActual++; }
-      crearCalendario(mesActual, añoActual);
-    }
+    eventosDelMes.forEach(([fecha, evento]) => {
+      const dia = Number(fecha.split('-')[2]);
+      const li = document.createElement('li');
+      li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
+      ul.appendChild(li);
+    });
+  }
 
-    const fechaActual = new Date();
-    crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
-  </script>
+  function cambiarMes(direccion) {
+    mesActual += direccion;
+    if (mesActual < 0) { mesActual = 11; añoActual--; }
+    else if (mesActual > 11) { mesActual = 0; añoActual++; }
+    crearCalendario(mesActual, añoActual);
+  }
+
+  const fechaActual = new Date();
+  crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
+</script>
 
 </body>
 </html>
