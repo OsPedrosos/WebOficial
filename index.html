@@ -306,6 +306,61 @@
       table { width: 100%; font-size: 14px; }
       #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
     }
+
+  /* Dado 3D */
+.scene {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 30px;
+  perspective: 600px;
+}
+
+.dice {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 1s ease-in-out;
+}
+
+.face {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: #ffffffdd;
+  border: 4px solid #333;
+  font-size: 48px;
+  font-weight: bold;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Caras del dado */
+.face1 { transform: rotateY(0deg) translateZ(75px); }
+.face2 { transform: rotateY(90deg) translateZ(75px); }
+.face3 { transform: rotateY(180deg) translateZ(75px); }
+.face4 { transform: rotateY(-90deg) translateZ(75px); }
+.face5 { transform: rotateX(-90deg) translateZ(75px); }
+.face6 { transform: rotateX(90deg) translateZ(75px); }
+
+@media (max-width: 768px) {
+  .scene {
+    width: 120px;
+    height: 120px;
+  }
+
+  .face {
+    width: 120px;
+    height: 120px;
+    font-size: 36px;
+  }
+}
+    
   </style>
 </head>
 <body>
@@ -322,6 +377,18 @@
   <span class="openbtn" onclick="openNav()">☰</span>
 
   <img src="titulo.png" alt="Pedrosos" />
+
+  <!-- Dado 3D -->
+<div class="scene">
+  <div class="dice" id="dice">
+    <div class="face face1">1</div>
+    <div class="face face2">2</div>
+    <div class="face face3">3</div>
+    <div class="face face4">4</div>
+    <div class="face face5">5</div>
+    <div class="face face6">6</div>
+  </div>
+</div>
 
   <div class="botones-grid">
     <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
@@ -441,5 +508,44 @@
       document.getElementById("sidebar").style.width = "0";
     }
   </script>
+
+  <script>
+  const dice = document.getElementById('dice');
+
+  function rollDice() {
+    const result = Math.floor(Math.random() * 6) + 1;
+    const rotations = {
+      1: [0, 0],
+      2: [0, 90],
+      3: [0, 180],
+      4: [0, -90],
+      5: [-90, 0],
+      6: [90, 0]
+    };
+
+    const [x, y] = rotations[result];
+    const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
+    const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
+
+    dice.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
+  }
+
+  dice.addEventListener('click', rollDice);
+  dice.addEventListener('touchstart', rollDice);
+
+  let startY = null;
+  dice.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+  });
+
+  dice.addEventListener('touchend', (e) => {
+    if (startY === null) return;
+    const endY = e.changedTouches[0].clientY;
+    const deltaY = startY - endY;
+    if (Math.abs(deltaY) > 50) rollDice();
+    startY = null;
+  });
+</script>
+  
 </body>
 </html>
