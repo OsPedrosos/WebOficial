@@ -5,81 +5,288 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Os Pedrosos</title>
   <style>
-    /* [TODO: Todo el CSS está aquí] */
-    /* Tu CSS estaba perfectamente estructurado, por lo que lo mantengo sin cambios */
-    /* Dado 3D */
-    .scene {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 30px;
-      perspective: 600px;
-    }
-
-    .dice {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(0deg) rotateY(0deg);
-      transition: transform 1s ease-in-out;
-    }
-
-    .face {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background: #ffffffdd;
-      border: 4px solid #333;
-      font-size: 48px;
-      font-weight: bold;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
+                  url('41515.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #2c3e50;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px;
+    }
+
+    h1 {
+      font-size: 72px;
+      margin-bottom: 5px;
+      font-weight: 700;
+      color: #34495e;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #7f8c8d;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+
+    .botones-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 10px;
+    }
+
+    .boton-web {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 14px;
+      height: 200px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     }
 
-    /* Caras del dado */
-    .face1 { transform: rotateY(0deg) translateZ(75px); }
-    .face2 { transform: rotateY(90deg) translateZ(75px); }
-    .face3 { transform: rotateY(180deg) translateZ(75px); }
-    .face4 { transform: rotateY(-90deg) translateZ(75px); }
-    .face5 { transform: rotateX(-90deg) translateZ(75px); }
-    .face6 { transform: rotateX(90deg) translateZ(75px); }
+    .boton-web:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      height: 200px;
+    }
+
+    .navegacion {
+      margin: 20px 0 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .navegacion button {
+      padding: 10px 22px;
+      font-size: 16px;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .navegacion button:hover {
+      background-color: #1f5a8a;
+      box-shadow: 0 6px 12px rgba(31, 90, 138, 0.5);
+    }
+
+    #mes-anio {
+      font-size: 28px;
+      color: #34495e;
+      font-weight: 700;
+      min-width: 200px;
+      user-select: none;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: separate;
+      border-spacing: 6px;
+      margin-top: 20px;
+      background: #ffffffdd;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 320px;
+      max-width: 100%;
+    }
+
+    th, td {
+      border: none;
+      width: 42px;
+      height: 42px;
+      text-align: center;
+      font-weight: 600;
+      color: #34495e;
+      border-radius: 8px;
+      position: relative;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    th {
+      font-weight: 700;
+      color: #7f8c8d;
+      font-size: 14px;
+      padding-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td:hover:not(.evento):not(.hoy) {
+      background-color: #ecf0f1;
+      cursor: default;
+    }
+
+    .hoy {
+      background-color: #27ae60;
+      color: white;
+      box-shadow: 0 0 8px #27ae60aa;
+      font-weight: 700;
+    }
+
+    .evento {
+      background-color: #e74c3c;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 0 8px #e74c3caa;
+      transition: background-color 0.3s ease;
+    }
+
+    .evento:hover {
+      background-color: #c0392b;
+      box-shadow: 0 0 12px #c0392baa;
+    }
+
+    .tooltip {
+      visibility: hidden;
+      background-color: rgba(44, 62, 80, 0.9);
+      color: #ecf0f1;
+      text-align: left;
+      border-radius: 6px;
+      padding: 8px 12px;
+      position: absolute;
+      z-index: 10;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+
+    .evento:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #lista-eventos {
+      margin: 40px auto 0;
+      max-width: 400px;
+      background: #ffffffdd;
+      padding: 20px 25px;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      text-align: left;
+      color: #34495e;
+      user-select: none;
+    }
+
+    #lista-eventos h3 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 22px;
+      font-weight: 700;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 6px;
+      color: #2980b9;
+    }
+
+    #lista-eventos ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    #lista-eventos ul::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #lista-eventos ul::-webkit-scrollbar-thumb {
+      background-color: #2980b9aa;
+      border-radius: 6px;
+    }
+
+    #lista-eventos li {
+      background: #3498db;
+      color: white;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+      transition: background-color 0.3s ease;
+      cursor: default;
+    }
+
+    #lista-eventos li:hover {
+      background-color: #217dbb;
+      box-shadow: 0 6px 14px rgba(33, 125, 187, 0.4);
+    }
 
     @media (max-width: 768px) {
-      .scene {
-        width: 120px;
-        height: 120px;
+      h1 {
+        font-size: 48px;
       }
-
-      .face {
-        width: 120px;
+      h2 {
+        font-size: 20px;
+      }
+      .botones-grid {
+        grid-template-columns: 1fr;
+      }
+      .boton-web {
         height: 120px;
-        font-size: 36px;
+        font-size: 18px;
+      }
+      .navegacion {
+        flex-direction: column;
+        gap: 10px;
+      }
+      #mes-anio {
+        font-size: 22px;
+      }
+      table {
+        width: 100%;
+        font-size: 14px;
+      }
+      #lista-eventos {
+        max-width: 100%;
+        padding: 15px;
+        font-size: 14px;
       }
     }
-
-    /* Aquí seguiría el resto del CSS que ya tenías (body, img, h1, calendario, etc.) */
-    /* No lo repito aquí para brevedad, pero lo mantengo igual que el código original */
   </style>
 </head>
 <body>
 
   <img src="titulo.png" alt="Pedrosos" />
-
-  <!-- Dado 3D -->
-  <div class="scene">
-    <div class="dice" id="dice">
-      <div class="face face1">1</div>
-      <div class="face face2">2</div>
-      <div class="face face3">3</div>
-      <div class="face face4">4</div>
-      <div class="face face5">5</div>
-      <div class="face face6">6</div>
-    </div>
-  </div>
 
   <div class="botones-grid">
     <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
@@ -118,7 +325,7 @@
     function crearCalendario(mes, año) {
       mesActual = mes;
       añoActual = año;
-      document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
+      document.getElementById('mes-anio').textContent = ${nombresMeses[mes]} ${año};
 
       const diasMes = new Date(año, mes + 1, 0).getDate();
       let primerDia = new Date(año, mes, 1).getDay();
@@ -129,14 +336,14 @@
 
       let html = '<table><tr>';
       const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
-      diasSemana.forEach(dia => html += `<th>${dia}</th>`);
+      diasSemana.forEach(dia => html += <th>${dia}</th>);
       html += '</tr><tr>';
 
       for (let i = 0; i < primerDia; i++) html += '<td></td>';
 
       for (let dia = 1; dia <= diasMes; dia++) {
         const esHoy = esEsteMes && dia === hoy.getDate();
-        const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const fechaStr = ${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')};
         const tieneEvento = eventos.hasOwnProperty(fechaStr);
         let clase = '';
         let tooltip = '';
@@ -146,10 +353,10 @@
 
         if (tieneEvento) {
           const evento = eventos[fechaStr];
-          tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
+          tooltip = <div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>;
         }
 
-        html += `<td class="${clase}">${dia}${tooltip}</td>`;
+        html += <td class="${clase}">${dia}${tooltip}</td>;
         if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
       }
 
@@ -176,7 +383,7 @@
       eventosDelMes.forEach(([fecha, evento]) => {
         const dia = Number(fecha.split('-')[2]);
         const li = document.createElement('li');
-        li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
+        li.textContent = ${dia} - ${evento.etiqueta} (${evento.ubicacion});
         ul.appendChild(li);
       });
     }
@@ -190,44 +397,6 @@
 
     const fechaActual = new Date();
     crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
-  </script>
-
-  <script>
-    const dice = document.getElementById('dice');
-
-    function rollDice() {
-      const result = Math.floor(Math.random() * 6) + 1;
-      const rotations = {
-        1: [0, 0],
-        2: [0, 90],
-        3: [0, 180],
-        4: [0, -90],
-        5: [-90, 0],
-        6: [90, 0]
-      };
-
-      const [x, y] = rotations[result];
-      const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
-      const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
-
-      dice.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
-    }
-
-    dice.addEventListener('click', rollDice);
-    dice.addEventListener('touchstart', rollDice);
-
-    let startY = null;
-    dice.addEventListener('touchstart', (e) => {
-      startY = e.touches[0].clientY;
-    });
-
-    dice.addEventListener('touchend', (e) => {
-      if (startY === null) return;
-      const endY = e.changedTouches[0].clientY;
-      const deltaY = startY - endY;
-      if (Math.abs(deltaY) > 50) rollDice();
-      startY = null;
-    });
   </script>
 
 </body>
