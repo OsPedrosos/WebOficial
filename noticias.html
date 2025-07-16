@@ -16,24 +16,20 @@
       text-align: center;
       padding: 20px;
     }
-
     .dice-container {
       display: flex;
+      flex-direction: row;
       justify-content: center;
-      align-items: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin: 80px auto 30px;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 100px;
     }
-
     .scene {
       width: 200px;
       height: 200px;
       perspective: 600px;
-      margin: 0;
       flex-shrink: 0;
     }
-
     .dice {
       width: 100%;
       height: 100%;
@@ -78,27 +74,36 @@
     .face5 { transform: rotateX(-90deg) translateZ(100px);}
     .face6 { transform: rotateX(90deg) translateZ(100px);}
 
+    /* Responsive layout: stack vertically on mobile */
     @media (max-width: 768px) {
       .dice-container {
-        flex-direction: row;
-        gap: 12px;
-        margin: 30px auto 10px;
+        flex-direction: column;
+        gap: 60px;
+        margin-top: 40px;
       }
-      .scene {
-        width: 110px;
-        height: 110px;
+      .scene { 
+        width: 120px; 
+        height: 120px; 
+        margin: 0 auto;
       }
-      .face { width: 110px; height: 110px; border-radius: 10px; }
-      .dot { width: 14px; height: 14px; }
-      .pos-tl { top: 10px; left: 10px; }
-      .pos-tc { top: 10px; left: 48px; }
-      .pos-tr { top: 10px; left: 86px; }
-      .pos-ml { top: 48px; left: 10px; }
+      .face { 
+        width: 120px; 
+        height: 120px; 
+        border-radius: 10px; 
+      }
+      .dot { 
+        width: 18px; 
+        height: 18px; 
+      }
+      .pos-tl { top: 18px; left: 18px; }
+      .pos-tc { top: 18px; left: 48px; }
+      .pos-tr { top: 18px; left: 78px; }
+      .pos-ml { top: 48px; left: 18px; }
       .pos-mc { top: 48px; left: 48px; }
-      .pos-mr { top: 48px; left: 86px; }
-      .pos-bl { top: 86px; left: 10px; }
-      .pos-bc { top: 86px; left: 48px; }
-      .pos-br { top: 86px; left: 86px; }
+      .pos-mr { top: 48px; left: 78px; }
+      .pos-bl { top: 78px; left: 18px; }
+      .pos-bc { top: 78px; left: 48px; }
+      .pos-br { top: 78px; left: 78px; }
     }
   </style>
 </head>
