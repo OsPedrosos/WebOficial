@@ -45,7 +45,7 @@
     }
 
     .openbtn {
-      position: fixed;      /* Lo posiciona respecto al viewport */
+      position: fixed;
       top: 10px;
       left: 10px;
       font-size: 20px;
@@ -55,7 +55,7 @@
       padding: 10px 15px;
       border: none;
       border-radius: 6px;
-      z-index: 1100;         /* Más alto que el sidebar */
+      z-index: 1100;
     }
 
     .closebtn {
@@ -83,6 +83,7 @@
       transform: rotateX(0deg) rotateY(0deg);
       transition: transform 1s ease-in-out;
       cursor: pointer;
+      user-select: none;
     }
 
     .face {
@@ -91,25 +92,116 @@
       height: 200px;
       background: #3498dbdd; /* Fondo azul semi-transparente */
       border: 3px solid #2980b9; /* Borde azul oscuro */
-      font-size: 56px; /* Cambiar tamaño del número */
-      font-weight: bold;
-      color: white; /* Número en blanco */
-      display: flex;
-      align-items: center;
-      justify-content: center;
       border-radius: 20px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      font-family: 'Arial Black', Arial, sans-serif; /* Cambiar fuente */
-      user-select: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    /* Caras del dado */
-    .face1 { transform: rotateY(0deg) translateZ(75px); }
-    .face2 { transform: rotateY(90deg) translateZ(75px); }
-    .face3 { transform: rotateY(180deg) translateZ(75px); }
-    .face4 { transform: rotateY(-90deg) translateZ(75px); }
-    .face5 { transform: rotateX(-90deg) translateZ(75px); }
-    .face6 { transform: rotateX(90deg) translateZ(75px); }
+    /* Puntos del dado */
+    .dot {
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      margin: 0 auto;
+    }
+
+    /* Posiciones para los puntos dentro de cada cara */
+
+    /* Para colocar los puntos, usamos flexbox y espacio, 
+       pero para el centro usamos un div que ocupa todo el ancho */
+    .face1 {
+      transform: rotateY(0deg) translateZ(100px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .face1 .dot {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .face2 {
+      transform: rotateY(90deg) translateZ(100px);
+      justify-content: space-between;
+      align-content: space-between;
+    }
+
+    .face2 .dot:nth-child(1) {
+      align-self: flex-start;
+    }
+    .face2 .dot:nth-child(2) {
+      align-self: flex-end;
+    }
+
+    .face3 {
+      transform: rotateY(180deg) translateZ(100px);
+      justify-content: space-between;
+      align-content: space-between;
+    }
+
+    .face3 .dot:nth-child(1) {
+      align-self: flex-start;
+      justify-self: flex-start;
+    }
+    .face3 .dot:nth-child(2) {
+      align-self: center;
+      justify-self: center;
+      margin: auto;
+    }
+    .face3 .dot:nth-child(3) {
+      align-self: flex-end;
+      justify-self: flex-end;
+    }
+
+    .face4 {
+      transform: rotateY(-90deg) translateZ(100px);
+      justify-content: space-between;
+      align-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .face4 .dot:nth-child(1) { align-self: flex-start; }
+    .face4 .dot:nth-child(2) { align-self: flex-start; }
+    .face4 .dot:nth-child(3) { align-self: flex-end; }
+    .face4 .dot:nth-child(4) { align-self: flex-end; }
+
+    .face5 {
+      transform: rotateX(-90deg) translateZ(100px);
+      justify-content: space-between;
+      align-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .face5 .dot:nth-child(1) { align-self: flex-start; }
+    .face5 .dot:nth-child(2) { align-self: flex-start; }
+    .face5 .dot:nth-child(3) {
+      justify-content: center;
+      align-self: center;
+      margin: auto;
+    }
+    .face5 .dot:nth-child(4) { align-self: flex-end; }
+    .face5 .dot:nth-child(5) { align-self: flex-end; }
+
+    .face6 {
+      transform: rotateX(90deg) translateZ(100px);
+      justify-content: space-between;
+      align-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .face6 .dot:nth-child(1) { align-self: flex-start; }
+    .face6 .dot:nth-child(2) { align-self: flex-start; }
+    .face6 .dot:nth-child(3) { align-self: center; }
+    .face6 .dot:nth-child(4) { align-self: center; }
+    .face6 .dot:nth-child(5) { align-self: flex-end; }
+    .face6 .dot:nth-child(6) { align-self: flex-end; }
 
     @media (max-width: 768px) {
       .scene {
@@ -120,7 +212,11 @@
       .face {
         width: 120px;
         height: 120px;
-        font-size: 36px;
+        padding: 12px;
+      }
+      .dot {
+        width: 18px;
+        height: 18px;
       }
     }
   </style>
@@ -132,7 +228,6 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="index.html">Inicio</a>
     <a href="noticias.html">Duelo</a>
-   <!--  <a href="galeria.html">Galería</a>  -->
   </div>
 
   <!-- Botón hamburguesa -->
@@ -141,24 +236,24 @@
   <!-- Dado 3D principal -->
   <div class="scene">
     <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
-      <div class="face face1">●</div>
-      <div class="face face2">●●</div>
-      <div class="face face3">●●●</div>
-      <div class="face face4">●●●●</div>
-      <div class="face face5">●●●●●</div>
-      <div class="face face6">●●●●●●</div>
+      <div class="face face1"><div class="dot"></div></div>
+      <div class="face face2"><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face3"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face4"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face5"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face6"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
   </div>
 
   <!-- Segundo dado -->
   <div class="scene" style="margin-top: 150px;">
     <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
-      <div class="face face1">●</div>
-      <div class="face face2">●●</div>
-      <div class="face face3">●●●</div>
-      <div class="face face4">●●●●</div>
-      <div class="face face5">●●●●●</div>
-      <div class="face face6">●●●●●●</div>
+      <div class="face face1"><div class="dot"></div></div>
+      <div class="face face2"><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face3"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face4"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face5"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="face face6"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
   </div>
 
