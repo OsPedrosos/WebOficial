@@ -6,6 +6,19 @@
   <title>Os Pedrosos</title>
   <style>
     body {
+
+      <!-- Menú lateral desplegable -->
+<div id="sidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="index.html">Inicio</a>
+  <a href="noticias.html">Noticias</a>
+  <a href="galeria.html">Galería</a>
+  <a href="contacto.html">Contacto</a>
+</div>
+
+<!-- Botón hamburguesa -->
+<span class="openbtn" onclick="openNav()">☰ Menú</span>
+      
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 20px;
       text-align: center;
@@ -286,6 +299,50 @@
 </head>
 <body>
 
+  /* Menú lateral */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: #2c3e50;
+  overflow-x: hidden;
+  transition: 0.4s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #34495e;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  margin: 10px;
+}
+
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+}
+
   <img src="titulo.png" alt="Pedrosos" />
 
   <div class="botones-grid">
@@ -399,5 +456,15 @@
   crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
 </script>
 
+<script>
+  function openNav() {
+    document.getElementById("sidebar").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("sidebar").style.width = "0";
+  }
+</script>
+  
 </body>
 </html>
