@@ -6,19 +6,6 @@
   <title>Os Pedrosos</title>
   <style>
     body {
-
-      <!-- Menú lateral desplegable -->
-<div id="sidebar" class="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <a href="index.html">Inicio</a>
-  <a href="noticias.html">Noticias</a>
-  <a href="galeria.html">Galería</a>
-  <a href="contacto.html">Contacto</a>
-</div>
-
-<!-- Botón hamburguesa -->
-<span class="openbtn" onclick="openNav()">☰ Menú</span>
-      
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 20px;
       text-align: center;
@@ -28,6 +15,50 @@
       color: #2c3e50;
       min-height: 100vh;
       margin: 0;
+    }
+
+    /* Menú lateral */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      background-color: #2c3e50;
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 12px 24px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #f1f1f1;
+      display: block;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      margin: 10px;
+    }
+
+    .closebtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
     }
 
     img {
@@ -83,7 +114,6 @@
     .boton-web:hover {
       transform: scale(1.03);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-      height: 200px;
     }
 
     .navegacion {
@@ -174,7 +204,6 @@
       cursor: pointer;
       font-weight: 700;
       box-shadow: 0 0 8px #e74c3caa;
-      transition: background-color 0.3s ease;
     }
 
     .evento:hover {
@@ -200,7 +229,6 @@
       transition: opacity 0.3s ease;
       pointer-events: none;
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-      user-select: none;
     }
 
     .evento:hover .tooltip {
@@ -265,83 +293,30 @@
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 48px;
-      }
-      h2 {
-        font-size: 20px;
-      }
-      .botones-grid {
-        grid-template-columns: 1fr;
-      }
-      .boton-web {
-        height: 120px;
-        font-size: 18px;
-      }
-      .navegacion {
-        flex-direction: column;
-        gap: 10px;
-      }
-      #mes-anio {
-        font-size: 22px;
-      }
-      table {
-        width: 100%;
-        font-size: 14px;
-      }
-      #lista-eventos {
-        max-width: 100%;
-        padding: 15px;
-        font-size: 14px;
-      }
+      h1 { font-size: 48px; }
+      h2 { font-size: 20px; }
+      .botones-grid { grid-template-columns: 1fr; }
+      .boton-web { height: 120px; font-size: 18px; }
+      .navegacion { flex-direction: column; gap: 10px; }
+      #mes-anio { font-size: 22px; }
+      table { width: 100%; font-size: 14px; }
+      #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
     }
   </style>
 </head>
 <body>
 
-  /* Menú lateral */
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  background-color: #2c3e50;
-  overflow-x: hidden;
-  transition: 0.4s;
-  padding-top: 60px;
-}
+  <!-- Menú lateral -->
+  <div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="index.html">Inicio</a>
+    <a href="noticias.html">Noticias</a>
+    <a href="galeria.html">Galería</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
 
-.sidebar a {
-  padding: 12px 24px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #f1f1f1;
-  display: block;
-  transition: 0.2s;
-}
-
-.sidebar a:hover {
-  background-color: #34495e;
-}
-
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  margin: 10px;
-}
-
-.closebtn {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 30px;
-}
+  <!-- Botón hamburguesa -->
+  <span class="openbtn" onclick="openNav()">☰ Menú</span>
 
   <img src="titulo.png" alt="Pedrosos" />
 
@@ -365,106 +340,103 @@
     <ul id="eventos-mes"></ul>
   </div>
 
-<script>
-  const eventos = {
-    "2025-07-18": { etiqueta: "Festa de Xinzo", ubicacion: "Xinzo de Limia" },
-    "2025-07-19": { etiqueta: "Festas da Xironda", ubicacion: "Ao Lado da Pedrosa" },
-    "2025-08-01": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
-    "2025-08-02": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
-    "2025-08-07": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
-    "2025-08-08": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
-    "2025-08-09": { etiqueta: "Feira do Viño Monterrei", ubicacion: "Verín" }
-  };
+  <script>
+    const eventos = {
+      "2025-07-18": { etiqueta: "Festa de Xinzo", ubicacion: "Xinzo de Limia" },
+      "2025-07-19": { etiqueta: "Festas da Xironda", ubicacion: "Ao Lado da Pedrosa" },
+      "2025-08-01": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+      "2025-08-02": { etiqueta: "Feira do Albariño", ubicacion: "Cambados" },
+      "2025-08-07": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+      "2025-08-08": { etiqueta: "Grandes Festas da Pedrosa", ubicacion: "A Pedrosa" },
+      "2025-08-09": { etiqueta: "Feira do Viño Monterrei", ubicacion: "Verín" }
+    };
 
-  let mesActual, añoActual;
-  const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
+    let mesActual, añoActual;
+    const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
 
-  function crearCalendario(mes, año) {
-    mesActual = mes;
-    añoActual = año;
-    document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
+    function crearCalendario(mes, año) {
+      mesActual = mes;
+      añoActual = año;
+      document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
 
-    const diasMes = new Date(año, mes + 1, 0).getDate();
-    let primerDia = new Date(año, mes, 1).getDay();
-    primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+      const diasMes = new Date(año, mes + 1, 0).getDate();
+      let primerDia = new Date(año, mes, 1).getDay();
+      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
 
-    const hoy = new Date();
-    const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
+      const hoy = new Date();
+      const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
 
-    let html = '<table><tr>';
-    const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
-    diasSemana.forEach(dia => html += `<th>${dia}</th>`);
-    html += '</tr><tr>';
+      let html = '<table><tr>';
+      const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
+      diasSemana.forEach(dia => html += `<th>${dia}</th>`);
+      html += '</tr><tr>';
 
-    for (let i = 0; i < primerDia; i++) html += '<td></td>';
+      for (let i = 0; i < primerDia; i++) html += '<td></td>';
 
-    for (let dia = 1; dia <= diasMes; dia++) {
-      const esHoy = esEsteMes && dia === hoy.getDate();
-      const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-      const tieneEvento = eventos.hasOwnProperty(fechaStr);
-      let clase = '';
-      let tooltip = '';
+      for (let dia = 1; dia <= diasMes; dia++) {
+        const esHoy = esEsteMes && dia === hoy.getDate();
+        const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const tieneEvento = eventos.hasOwnProperty(fechaStr);
+        let clase = '';
+        let tooltip = '';
 
-      if (esHoy) clase = 'hoy';
-      else if (tieneEvento) clase = 'evento';
+        if (esHoy) clase = 'hoy';
+        else if (tieneEvento) clase = 'evento';
 
-      if (tieneEvento) {
-        const evento = eventos[fechaStr];
-        tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
+        if (tieneEvento) {
+          const evento = eventos[fechaStr];
+          tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
+        }
+
+        html += `<td class="${clase}">${dia}${tooltip}</td>`;
+        if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
       }
 
-      html += `<td class="${clase}">${dia}${tooltip}</td>`;
-      if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
+      html += '</tr></table>';
+      document.getElementById('calendario').innerHTML = html;
+      mostrarEventosMes(mes, año);
     }
 
-    html += '</tr></table>';
-    document.getElementById('calendario').innerHTML = html;
-    mostrarEventosMes(mes, año);
-  }
+    function mostrarEventosMes(mes, año) {
+      const ul = document.getElementById('eventos-mes');
+      ul.innerHTML = '';
+      const eventosDelMes = Object.entries(eventos)
+        .filter(([fecha]) => {
+          const [a, m] = fecha.split('-').map(Number);
+          return a === año && (m - 1) === mes;
+        })
+        .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
 
-  function mostrarEventosMes(mes, año) {
-    const ul = document.getElementById('eventos-mes');
-    ul.innerHTML = '';
-    const eventosDelMes = Object.entries(eventos)
-      .filter(([fecha]) => {
-        const [a, m] = fecha.split('-').map(Number);
-        return a === año && (m - 1) === mes;
-      })
-      .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
+      if (eventosDelMes.length === 0) {
+        ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
+        return;
+      }
 
-    if (eventosDelMes.length === 0) {
-      ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
-      return;
+      eventosDelMes.forEach(([fecha, evento]) => {
+        const dia = Number(fecha.split('-')[2]);
+        const li = document.createElement('li');
+        li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
+        ul.appendChild(li);
+      });
     }
 
-    eventosDelMes.forEach(([fecha, evento]) => {
-      const dia = Number(fecha.split('-')[2]);
-      const li = document.createElement('li');
-      li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
-      ul.appendChild(li);
-    });
-  }
+    function cambiarMes(direccion) {
+      mesActual += direccion;
+      if (mesActual < 0) { mesActual = 11; añoActual--; }
+      else if (mesActual > 11) { mesActual = 0; añoActual++; }
+      crearCalendario(mesActual, añoActual);
+    }
 
-  function cambiarMes(direccion) {
-    mesActual += direccion;
-    if (mesActual < 0) { mesActual = 11; añoActual--; }
-    else if (mesActual > 11) { mesActual = 0; añoActual++; }
-    crearCalendario(mesActual, añoActual);
-  }
+    const fechaActual = new Date();
+    crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
 
-  const fechaActual = new Date();
-  crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
-</script>
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
 
-<script>
-  function openNav() {
-    document.getElementById("sidebar").style.width = "250px";
-  }
-
-  function closeNav() {
-    document.getElementById("sidebar").style.width = "0";
-  }
-</script>
-  
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+  </script>
 </body>
 </html>
