@@ -16,19 +16,11 @@
       text-align: center;
       padding: 20px;
     }
-    .dice-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 40px;
-      margin-top: 100px;
-    }
     .scene {
       width: 200px;
       height: 200px;
+      margin: 100px auto 30px;
       perspective: 600px;
-      flex-shrink: 0;
     }
     .dice {
       width: 100%;
@@ -74,27 +66,10 @@
     .face5 { transform: rotateX(-90deg) translateZ(100px);}
     .face6 { transform: rotateX(90deg) translateZ(100px);}
 
-    /* Responsive layout: stack vertically on mobile */
     @media (max-width: 768px) {
-      .dice-container {
-        flex-direction: column;
-        gap: 60px;
-        margin-top: 40px;
-      }
-      .scene { 
-        width: 120px; 
-        height: 120px; 
-        margin: 0 auto;
-      }
-      .face { 
-        width: 120px; 
-        height: 120px; 
-        border-radius: 10px; 
-      }
-      .dot { 
-        width: 18px; 
-        height: 18px; 
-      }
+      .scene { width: 120px; height: 120px; margin-top: 80px; }
+      .face { width: 120px; height: 120px; border-radius: 10px; }
+      .dot { width: 18px; height: 18px; }
       .pos-tl { top: 18px; left: 18px; }
       .pos-tc { top: 18px; left: 48px; }
       .pos-tr { top: 18px; left: 78px; }
@@ -108,59 +83,57 @@
   </style>
 </head>
 <body>
-  <div class="dice-container">
-    <div class="scene">
-      <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
-        <!-- Cara 1 -->
-        <div class="face face1">
-          <div class="dot pos-mc"></div>
-        </div>
-        <!-- Cara 2 -->
-        <div class="face face2">
-          <div class="dot pos-tl"></div>
-          <div class="dot pos-br"></div>
-        </div>
-        <!-- Cara 3 -->
-        <div class="face face3">
-          <div class="dot pos-tl"></div>
-          <div class="dot pos-mc"></div>
-          <div class="dot pos-br"></div>
-        </div>
-        <!-- Cara 4 -->
-        <div class="face face4">
-          <div class="dot pos-tl"></div>
-          <div class="dot pos-tr"></div>
-          <div class="dot pos-bl"></div>
-          <div class="dot pos-br"></div>
-        </div>
-        <!-- Cara 5 -->
-        <div class="face face5">
-          <div class="dot pos-tl"></div>
-          <div class="dot pos-tr"></div>
-          <div class="dot pos-mc"></div>
-          <div class="dot pos-bl"></div>
-          <div class="dot pos-br"></div>
-        </div>
-        <!-- Cara 6 -->
-        <div class="face face6">
-          <div class="dot pos-tl"></div>
-          <div class="dot pos-tr"></div>
-          <div class="dot pos-ml"></div>
-          <div class="dot pos-mr"></div>
-          <div class="dot pos-bl"></div>
-          <div class="dot pos-br"></div>
-        </div>
+  <div class="scene">
+    <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
+      <!-- Cara 1 -->
+      <div class="face face1">
+        <div class="dot pos-mc"></div>
+      </div>
+      <!-- Cara 2 -->
+      <div class="face face2">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 3 -->
+      <div class="face face3">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-mc"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 4 -->
+      <div class="face face4">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 5 -->
+      <div class="face face5">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-mc"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 6 -->
+      <div class="face face6">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-ml"></div>
+        <div class="dot pos-mr"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
       </div>
     </div>
-    <div class="scene">
-      <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
-        <div class="face face1"><div class="dot pos-mc"></div></div>
-        <div class="face face2"><div class="dot pos-tl"></div><div class="dot pos-br"></div></div>
-        <div class="face face3"><div class="dot pos-tl"></div><div class="dot pos-mc"></div><div class="dot pos-br"></div></div>
-        <div class="face face4"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
-        <div class="face face5"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-mc"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
-        <div class="face face6"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-ml"></div><div class="dot pos-mr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
-      </div>
+  </div>
+  <div class="scene" style="margin-top: 150px;">
+    <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
+      <div class="face face1"><div class="dot pos-mc"></div></div>
+      <div class="face face2"><div class="dot pos-tl"></div><div class="dot pos-br"></div></div>
+      <div class="face face3"><div class="dot pos-tl"></div><div class="dot pos-mc"></div><div class="dot pos-br"></div></div>
+      <div class="face face4"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
+      <div class="face face5"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-mc"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
+      <div class="face face6"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-ml"></div><div class="dot pos-mr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
     </div>
   </div>
   <script>
