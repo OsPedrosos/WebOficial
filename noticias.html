@@ -2,33 +2,85 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dado Tradicional 3D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duelo</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      text-align: center;
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('41515.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #2c3e50;
-      text-align: center;
-      padding: 20px;
-      margin: 0;
       min-height: 100vh;
+      margin: 0;
     }
 
+    /* Menú lateral */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      background-color: #2c3e50;
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 12px 24px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #f1f1f1;
+      display: block;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    .openbtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      z-index: 1100;
+    }
+
+    .closebtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Dado 3D */
     .scene {
       width: 200px;
       height: 200px;
-      margin: 100px auto;
+      margin: 100px auto 30px;
       perspective: 600px;
     }
 
     .dice {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 100%;
       position: relative;
       transform-style: preserve-3d;
+      transform: rotateX(0deg) rotateY(0deg);
       transition: transform 1s ease-in-out;
       cursor: pointer;
       user-select: none;
@@ -42,15 +94,28 @@
       border: 3px solid #2980b9;
       border-radius: 20px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 28px;
+      padding: 20px;
       box-sizing: border-box;
-      /* Necesario para posicionar puntos dentro */
-      position: absolute;
-      display: block;
-      /* Para posicionar puntos absolutos */
-      position: relative;
     }
 
-    /* Posiciones caras */
+    .dot {
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      margin: auto;
+      opacity: 0; /* Ocultos por defecto, el JS los muestra según cara */
+      transition: opacity 0.3s;
+    }
+
+    /* Posiciones 3x3 para cada cara del dado */
+    /* Las clases .faceX-dotY se activan por JS */
+
     .face1 { transform: rotateY(0deg) translateZ(100px); }
     .face2 { transform: rotateY(90deg) translateZ(100px); }
     .face3 { transform: rotateY(180deg) translateZ(100px); }
@@ -58,174 +123,153 @@
     .face5 { transform: rotateX(-90deg) translateZ(100px); }
     .face6 { transform: rotateX(90deg) translateZ(100px); }
 
-    /* Puntos del dado */
-    .dot {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    }
-
-    /* Posiciones puntos (cada cara es un cuadrado de 200x200) */
-
-    /* Coordenadas para puntos */
-
-    /* Cara 1: un punto centro */
-    .face1 .dot {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    /* Cara 2: puntos arriba izquierda y abajo derecha */
-    .face2 .dot:nth-child(1) {
-      top: 30px;
-      left: 30px;
-    }
-    .face2 .dot:nth-child(2) {
-      bottom: 30px;
-      right: 30px;
-    }
-
-    /* Cara 3: puntos arriba izquierda, centro y abajo derecha */
-    .face3 .dot:nth-child(1) {
-      top: 30px;
-      left: 30px;
-    }
-    .face3 .dot:nth-child(2) {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .face3 .dot:nth-child(3) {
-      bottom: 30px;
-      right: 30px;
-    }
-
-    /* Cara 4: puntos en las 4 esquinas */
-    .face4 .dot:nth-child(1) {
-      top: 30px;
-      left: 30px;
-    }
-    .face4 .dot:nth-child(2) {
-      top: 30px;
-      right: 30px;
-    }
-    .face4 .dot:nth-child(3) {
-      bottom: 30px;
-      left: 30px;
-    }
-    .face4 .dot:nth-child(4) {
-      bottom: 30px;
-      right: 30px;
-    }
-
-    /* Cara 5: puntos en las 4 esquinas y uno en el centro */
-    .face5 .dot:nth-child(1) {
-      top: 30px;
-      left: 30px;
-    }
-    .face5 .dot:nth-child(2) {
-      top: 30px;
-      right: 30px;
-    }
-    .face5 .dot:nth-child(3) {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .face5 .dot:nth-child(4) {
-      bottom: 30px;
-      left: 30px;
-    }
-    .face5 .dot:nth-child(5) {
-      bottom: 30px;
-      right: 30px;
-    }
-
-    /* Cara 6: puntos en 3 arriba izquierda y abajo derecha */
-    .face6 .dot:nth-child(1) {
-      top: 30px;
-      left: 30px;
-    }
-    .face6 .dot:nth-child(2) {
-      top: 30px;
-      right: 30px;
-    }
-    .face6 .dot:nth-child(3) {
-      top: 50%;
-      left: 30px;
-      transform: translateY(-50%);
-    }
-    .face6 .dot:nth-child(4) {
-      top: 50%;
-      right: 30px;
-      transform: translateY(-50%);
-    }
-    .face6 .dot:nth-child(5) {
-      bottom: 30px;
-      left: 30px;
-    }
-    .face6 .dot:nth-child(6) {
-      bottom: 30px;
-      right: 30px;
-    }
-
     @media (max-width: 768px) {
       .scene {
         width: 120px;
         height: 120px;
-        margin: 80px auto;
+        margin-top: 80px;
       }
-      .dice, .face {
+      .face {
         width: 120px;
         height: 120px;
+        gap: 6px;
+        padding: 12px;
       }
       .dot {
         width: 18px;
         height: 18px;
       }
-      /* Reajustar posiciones de puntos */
-      .face1 .dot { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-      .face2 .dot:nth-child(1) { top: 18px; left: 18px; }
-      .face2 .dot:nth-child(2) { bottom: 18px; right: 18px; }
-      .face3 .dot:nth-child(1) { top: 18px; left: 18px; }
-      .face3 .dot:nth-child(2) { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-      .face3 .dot:nth-child(3) { bottom: 18px; right: 18px; }
-      .face4 .dot:nth-child(1) { top: 18px; left: 18px; }
-      .face4 .dot:nth-child(2) { top: 18px; right: 18px; }
-      .face4 .dot:nth-child(3) { bottom: 18px; left: 18px; }
-      .face4 .dot:nth-child(4) { bottom: 18px; right: 18px; }
-      .face5 .dot:nth-child(1) { top: 18px; left: 18px; }
-      .face5 .dot:nth-child(2) { top: 18px; right: 18px; }
-      .face5 .dot:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-      .face5 .dot:nth-child(4) { bottom: 18px; left: 18px; }
-      .face5 .dot:nth-child(5) { bottom: 18px; right: 18px; }
-      .face6 .dot:nth-child(1) { top: 18px; left: 18px; }
-      .face6 .dot:nth-child(2) { top: 18px; right: 18px; }
-      .face6 .dot:nth-child(3) { top: 50%; left: 18px; transform: translateY(-50%); }
-      .face6 .dot:nth-child(4) { top: 50%; right: 18px; transform: translateY(-50%); }
-      .face6 .dot:nth-child(5) { bottom: 18px; left: 18px; }
-      .face6 .dot:nth-child(6) { bottom: 18px; right: 18px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Menú lateral -->
+  <div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="index.html">Inicio</a>
+    <a href="noticias.html">Duelo</a>
+  </div>
+
+  <!-- Botón hamburguesa -->
+  <button class="openbtn" onclick="openNav()">☰</button>
+
+  <!-- Dado 3D principal -->
   <div class="scene">
     <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
-      <div class="face face1"><div class="dot"></div></div>
-      <div class="face face2"><div class="dot"></div><div class="dot"></div></div>
-      <div class="face face3"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="face face4"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="face face5"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="face face6"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <!-- Cara 1 -->
+      <div class="face face1">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <!-- Cara 2 -->
+      <div class="face face2">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <!-- Cara 3 -->
+      <div class="face face3">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <!-- Cara 4 -->
+      <div class="face face4">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <!-- Cara 5 -->
+      <div class="face face5">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <!-- Cara 6 -->
+      <div class="face face6">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segundo dado -->
+  <div class="scene" style="margin-top: 150px;">
+    <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
+      <div class="face face1">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="face face2">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="face face3">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="face face4">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="face face5">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="face face6">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
     </div>
   </div>
 
   <script>
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+
+    // Mapas de posiciones activas por cara para el dado tradicional en una cuadrícula 3x3
+    const diceDots = {
+      1: [4],
+      2: [0, 8],
+      3: [0, 4, 8],
+      4: [0, 2, 6, 8],
+      5: [0, 2, 4, 6, 8],
+      6: [0, 2, 3, 5, 6, 8]
+    };
+
+    // Mostrar los puntos correctos por cara
+    function showDotsOnFaces(diceElem, value) {
+      // Oculta todos los puntos
+      for (let f = 0; f < 6; f++) {
+        const face = diceElem.children[f];
+        for (let d = 0; d < 9; d++) {
+          face.children[d].style.opacity = "0";
+        }
+      }
+      // Muestra sólo los puntos de la cara visible (por diseño, todos los dots están en cada cara)
+      // y sólo los que corresponden al valor actual del dado
+      const faceNum = value; // La cara que está al frente es la que tiene el valor (1-6)
+      const face = diceElem.children[faceNum - 1];
+      diceDots[value].forEach(idx => {
+        face.children[idx].style.opacity = "1";
+      });
+    }
+
+    // Rota el dado y actualiza los puntos
     function rollDice(diceElement) {
       const result = Math.floor(Math.random() * 6) + 1;
       const rotations = {
@@ -236,10 +280,34 @@
         5: [-90, 0],
         6: [90, 0]
       };
+
       const [x, y] = rotations[result];
       const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
       const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
+
       diceElement.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
+
+      // Muestra los puntos en el dado correspondiente
+      showDotsOnFaces(diceElement, result);
     }
 
-    const dice =
+    // Inicializa los dados mostrando el valor 1 tradicional
+    function initDice(diceElement) {
+      diceElement.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      showDotsOnFaces(diceElement, 1);
+    }
+
+    const dice1 = document.getElementById('dice');
+    const dice2 = document.getElementById('dice2');
+
+    dice1.addEventListener('click', () => rollDice(dice1));
+    dice1.addEventListener('touchstart', () => rollDice(dice1));
+    dice2.addEventListener('click', () => rollDice(dice2));
+    dice2.addEventListener('touchstart', () => rollDice(dice2));
+
+    // Inicializa ambos dados al cargar la página
+    initDice(dice1);
+    initDice(dice2);
+  </script>
+</body>
+</html>
