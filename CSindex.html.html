@@ -5,14 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Os Pedrosos</title>
   <style>
-    /* [TODO: Todo el CSS está aquí] */
-    /* Tu CSS estaba perfectamente estructurado, por lo que lo mantengo sin cambios */
-    /* Dado 3D */
+    /* --- ESTILOS GENERALES --- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    img[src="titulo.png"] {
+      max-width: 90%;
+      height: auto;
+      margin-bottom: 20px;
+      /* Si no carga la imagen, que no rompa el layout */
+      min-height: 50px; 
+      display: block;
+    }
+
+    h1, h2, h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    /* --- DADO 3D (Tu código original + ajustes) --- */
     .scene {
       width: 150px;
       height: 150px;
-      margin: 0 auto 30px;
+      margin: 20px auto 40px; /* Un poco más de margen abajo */
       perspective: 600px;
+      cursor: pointer; /* Indicar que es interactivo */
     }
 
     .dice {
@@ -28,8 +55,8 @@
       position: absolute;
       width: 150px;
       height: 150px;
-      background: #ffffffdd;
-      border: 4px solid #333;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #2c3e50;
       font-size: 48px;
       font-weight: bold;
       color: #2c3e50;
@@ -37,10 +64,11 @@
       align-items: center;
       justify-content: center;
       border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+      user-select: none; /* Evitar seleccionar texto al clicar */
     }
 
-    /* Caras del dado */
+    /* Posicionamiento de las caras */
     .face1 { transform: rotateY(0deg) translateZ(75px); }
     .face2 { transform: rotateY(90deg) translateZ(75px); }
     .face3 { transform: rotateY(180deg) translateZ(75px); }
@@ -48,28 +76,216 @@
     .face5 { transform: rotateX(-90deg) translateZ(75px); }
     .face6 { transform: rotateX(90deg) translateZ(75px); }
 
-    @media (max-width: 768px) {
-      .scene {
-        width: 120px;
-        height: 120px;
-      }
-
-      .face {
-        width: 120px;
-        height: 120px;
-        font-size: 36px;
-      }
+    /* --- BOTONES GRID (Perfiles) --- */
+    .botones-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      max-width: 800px;
     }
 
-    /* Aquí seguiría el resto del CSS que ya tenías (body, img, h1, calendario, etc.) */
-    /* No lo repito aquí para brevedad, pero lo mantengo igual que el código original */
+    .boton-web {
+      display: flex;
+      align-items: flex-end; /* Texto abajo */
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%; /* Circulares */
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      background-color: #ddd; /* Color de fondo por si falla la imagen */
+      background-size: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 3px solid white;
+      padding-bottom: 10px; /* Espacio para el texto */
+      box-sizing: border-box;
+    }
+
+    .boton-web:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    /* --- CALENDARIO --- */
+    .navegacion {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #34495e;
+    }
+
+    .navegacion button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .navegacion button:hover {
+      background-color: #2980b9;
+    }
+
+    #calendario {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      max-width: 100%;
+      overflow-x: auto; /* Scroll si es muy pequeño */
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 5px;
+      margin: 0 auto;
+    }
+
+    th {
+      color: #7f8c8d;
+      font-weight: 600;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+
+    td {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      vertical-align: middle;
+      border-radius: 8px;
+      font-size: 1rem;
+      position: relative; /* Para el tooltip */
+      transition: background 0.2s;
+    }
+
+    td:not(:empty):hover {
+      background-color: #f0f2f5;
+    }
+
+    /* Día actual */
+    .hoy {
+      background-color: #dff9fb !important;
+      color: #2980b9;
+      font-weight: bold;
+      border: 2px solid #2980b9;
+    }
+
+    /* Día con evento */
+    .evento {
+      background-color: #e74c3c !important;
+      color: white !important;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
+    }
+
+    /* Tooltip CSS puro */
+    .tooltip {
+      visibility: hidden;
+      width: 120px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 10;
+      bottom: 110%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.8rem;
+      font-weight: normal;
+      pointer-events: none;
+    }
+
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .evento:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* --- LISTA DE EVENTOS --- */
+    #lista-eventos {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+
+    #lista-eventos h3 {
+      margin-top: 0;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    #eventos-mes {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #eventos-mes li {
+      padding: 10px;
+      border-bottom: 1px solid #f1f1f1;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    #eventos-mes li:last-child {
+      border-bottom: none;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 600px) {
+      .scene { width: 100px; height: 100px; }
+      .face { width: 100px; height: 100px; font-size: 32px; }
+      /* Ajuste traslación caras para tamaño menor */
+      .face1 { transform: rotateY(0deg) translateZ(50px); }
+      .face2 { transform: rotateY(90deg) translateZ(50px); }
+      .face3 { transform: rotateY(180deg) translateZ(50px); }
+      .face4 { transform: rotateY(-90deg) translateZ(50px); }
+      .face5 { transform: rotateX(-90deg) translateZ(50px); }
+      .face6 { transform: rotateX(90deg) translateZ(50px); }
+      
+      .boton-web { width: 80px; height: 80px; font-size: 12px; }
+      td { width: 35px; height: 35px; }
+    }
   </style>
 </head>
 <body>
 
-  <img src="titulo.png" alt="Pedrosos" />
+  <img src="titulo.png" alt="Os Pedrosos" />
 
-  <!-- Dado 3D -->
   <div class="scene">
     <div class="dice" id="dice">
       <div class="face face1">1</div>
@@ -80,6 +296,7 @@
       <div class="face face6">6</div>
     </div>
   </div>
+  <p style="margin-top:-20px; margin-bottom: 30px; color:#7f8c8d; font-size:0.9rem;">(Toca el dado para lanzar)</p>
 
   <div class="botones-grid">
     <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
@@ -89,9 +306,9 @@
   </div>
 
   <div class="navegacion">
-    <button onclick="cambiarMes(-1)">← Mes anterior</button>
+    <button onclick="cambiarMes(-1)">←</button>
     <span id="mes-anio"></span>
-    <button onclick="cambiarMes(1)">Mes siguiente →</button>
+    <button onclick="cambiarMes(1)">→</button>
   </div>
 
   <div id="calendario"></div>
@@ -120,7 +337,7 @@
 
       const diasMes = new Date(año, mes + 1, 0).getDate();
       let primerDia = new Date(año, mes, 1).getDay();
-      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+      primerDia = (primerDia === 0) ? 6 : primerDia - 1; // Ajustar para que semana empiece en Lunes
 
       const hoy = new Date();
       const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
@@ -142,6 +359,7 @@
         if (esHoy) clase = 'hoy';
         else if (tieneEvento) clase = 'evento';
 
+        // Generar Tooltip HTML dentro de la celda
         if (tieneEvento) {
           const evento = eventos[fechaStr];
           tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
@@ -167,14 +385,14 @@
         .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
 
       if (eventosDelMes.length === 0) {
-        ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
+        ul.innerHTML = '<li style="color:#bdc3c7; font-style:italic;">Non hai eventos este mes.</li>';
         return;
       }
 
       eventosDelMes.forEach(([fecha, evento]) => {
         const dia = Number(fecha.split('-')[2]);
         const li = document.createElement('li');
-        li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
+        li.innerHTML = `<strong>${dia}:</strong> ${evento.etiqueta} <span style="color:#7f8c8d; font-size:0.8em">(${evento.ubicacion})</span>`;
         ul.appendChild(li);
       });
     }
@@ -194,40 +412,35 @@
     const dice = document.getElementById('dice');
 
     function rollDice() {
+      // Calcular resultado aleatorio
       const result = Math.floor(Math.random() * 6) + 1;
+      
+      // Coordenadas para mostrar la cara correcta al frente
       const rotations = {
         1: [0, 0],
-        2: [0, 90],
-        3: [0, 180],
-        4: [0, -90],
-        5: [-90, 0],
-        6: [90, 0]
+        2: [0, -90],  // Ajustado para coincidir con tus transformaciones CSS
+        3: [0, -180],
+        4: [0, 90],
+        5: [90, 0],
+        6: [-90, 0]
       };
 
       const [x, y] = rotations[result];
-      const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
-      const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
+      // Añadir giros extra aleatorios (multiplos de 360) para que la animación sea fluida
+      const extraX = 360 * (Math.floor(Math.random() * 5) + 2);
+      const extraY = 360 * (Math.floor(Math.random() * 5) + 2);
 
       dice.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
     }
 
     dice.addEventListener('click', rollDice);
-    dice.addEventListener('touchstart', rollDice);
-
+    
+    // Soporte táctil básico
     let startY = null;
     dice.addEventListener('touchstart', (e) => {
       startY = e.touches[0].clientY;
-    });
-
-    dice.addEventListener('touchend', (e) => {
-      if (startY === null) return;
-      const endY = e.changedTouches[0].clientY;
-      const deltaY = startY - endY;
-      if (Math.abs(deltaY) > 50) rollDice();
-      startY = null;
     });
   </script>
 
 </body>
 </html>
-
