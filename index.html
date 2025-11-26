@@ -58,55 +58,7 @@
       font-size: 1.8rem;
     }
 
-    /* --- DADO 3D --- */
-    .scene {
-      width: 150px;
-      height: 150px;
-      margin: 20px auto 40px;
-      perspective: 600px;
-      cursor: pointer;
-    }
 
-    .dice {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(0deg) rotateY(0deg);
-      transition: transform 1s ease-in-out;
-    }
-
-    .face {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 2px solid var(--text-color);
-      font-size: 48px;
-      font-weight: bold;
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 16px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
-      user-select: none;
-    }
-
-    /* Posicionamiento de las caras */
-    .face1 { transform: rotateY(0deg) translateZ(75px); }
-    .face2 { transform: rotateY(90deg) translateZ(75px); }
-    .face3 { transform: rotateY(180deg) translateZ(75px); }
-    .face4 { transform: rotateY(-90deg) translateZ(75px); }
-    .face5 { transform: rotateX(-90deg) translateZ(75px); }
-    .face6 { transform: rotateX(90deg) translateZ(75px); }
-
-    .dice-info {
-      margin-top: -20px;
-      margin-bottom: 30px;
-      color: var(--text-color);
-      font-size: 0.9rem;
-    }
 
     /* --- GALERÍA DE IMÁGENES CON ENLACES --- */
     .gallery-grid {
