@@ -1,0 +1,46 @@
+/* --- ESTILOS CARD MODIFICADOS --- */
+.card {
+  width: 100%;
+  height: 250px;
+  perspective: 1000px;
+  text-decoration: none;
+  /* Estos estilos son nuevos para que la tarjeta se comporte como el boton-web */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card > div {
+  width: 100%; /* Cambiado de 85% a 100% para ocupar todo el espacio */
+  height: 100%; /* Cambiado de 85% a 100% para ocupar todo el espacio */
+  backface-visibility: hidden;
+  border-radius: 14px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.8s;
+  
+  /* **CAMBIO CLAVE: Alineación para el nombre** */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinea el contenido (el nombre) en la parte superior */
+  text-align: center;
+  
+  color: white;
+  font-size: 30px; /* Tamaño de fuente del nombre */
+  font-weight: bold;
+  padding: 20px; /* Espacio para que el nombre no toque el borde */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /* Sombra de texto para visibilidad */
+}
+
+/* Cara frontal */
+.card .front {
+  background-size: cover;
+  background-position: center;
+}
+/* --- FIN ESTILOS CARD MODIFICADOS --- */

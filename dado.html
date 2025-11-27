@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duelo</title>
+  <style>
+
+
+/* Menú lateral */
+.sidebar {
+  height: 15%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: #2c3e50;
+  overflow-x: hidden;
+  transition: 0.4s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #34495e;
+}
+
+.openbtn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  z-index: 1100;
+}
+
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
+                  url('41515.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #2c3e50;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+    .scene {
+      width: 200px;
+      height: 200px;
+      margin: 100px auto 30px;
+      perspective: 600px;
+    }
+    .dice {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s cubic-bezier(.25,.1,.1,1);
+      cursor: pointer;
+      user-select: none;
+    }
+    .face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      border: 3px solid #bbb;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .dot {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: #222;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+    /* Posiciones clásicas */
+    .pos-tl { top: 30px; left: 30px; }
+    .pos-tc { top: 30px; left: 84px; }
+    .pos-tr { top: 30px; left: 138px; }
+    .pos-ml { top: 84px; left: 30px; }
+    .pos-mc { top: 84px; left: 84px; }
+    .pos-mr { top: 84px; left: 138px; }
+    .pos-bl { top: 138px; left: 30px; }
+    .pos-bc { top: 138px; left: 84px; }
+    .pos-br { top: 138px; left: 138px; }
+
+    .face1 { transform: rotateY(0deg) translateZ(100px);}
+    .face2 { transform: rotateY(90deg) translateZ(100px);}
+    .face3 { transform: rotateY(180deg) translateZ(100px);}
+    .face4 { transform: rotateY(-90deg) translateZ(100px);}
+    .face5 { transform: rotateX(-90deg) translateZ(100px);}
+    .face6 { transform: rotateX(90deg) translateZ(100px);}
+
+    @media (max-width: 768px) {
+      .scene { width: 120px; height: 120px; margin-top: 80px; }
+      .face { width: 120px; height: 120px; border-radius: 10px; }
+      .dot { width: 18px; height: 18px; }
+      .pos-tl { top: 18px; left: 18px; }
+      .pos-tc { top: 18px; left: 48px; }
+      .pos-tr { top: 18px; left: 78px; }
+      .pos-ml { top: 48px; left: 18px; }
+      .pos-mc { top: 48px; left: 48px; }
+      .pos-mr { top: 48px; left: 78px; }
+      .pos-bl { top: 78px; left: 18px; }
+      .pos-bc { top: 78px; left: 48px; }
+      .pos-br { top: 78px; left: 78px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menú lateral -->
+<div id="sidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="index.html">Inicio</a>
+  <a href="noticias.html">Duelo</a>
+</div>
+
+<!-- Botón hamburguesa -->
+<button class="openbtn" onclick="openNav()">☰</button>
+
+  
+  <div class="scene">
+    <div class="dice" id="dice" title="Haz click o toca para lanzar el dado">
+      <!-- Cara 1 -->
+      <div class="face face1">
+        <div class="dot pos-mc"></div>
+      </div>
+      <!-- Cara 2 -->
+      <div class="face face2">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 3 -->
+      <div class="face face3">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-mc"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 4 -->
+      <div class="face face4">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 5 -->
+      <div class="face face5">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-mc"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+      <!-- Cara 6 -->
+      <div class="face face6">
+        <div class="dot pos-tl"></div>
+        <div class="dot pos-tr"></div>
+        <div class="dot pos-ml"></div>
+        <div class="dot pos-mr"></div>
+        <div class="dot pos-bl"></div>
+        <div class="dot pos-br"></div>
+      </div>
+    </div>
+  </div>
+  <div class="scene" style="margin-top: 150px;">
+    <div class="dice" id="dice2" title="Haz click o toca para lanzar el dado">
+      <div class="face face1"><div class="dot pos-mc"></div></div>
+      <div class="face face2"><div class="dot pos-tl"></div><div class="dot pos-br"></div></div>
+      <div class="face face3"><div class="dot pos-tl"></div><div class="dot pos-mc"></div><div class="dot pos-br"></div></div>
+      <div class="face face4"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
+      <div class="face face5"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-mc"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
+      <div class="face face6"><div class="dot pos-tl"></div><div class="dot pos-tr"></div><div class="dot pos-ml"></div><div class="dot pos-mr"></div><div class="dot pos-bl"></div><div class="dot pos-br"></div></div>
+    </div>
+  </div>
+  <script>
+
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+    
+    function rollDice(diceElem) {
+      const value = Math.floor(Math.random() * 6) + 1;
+      const rotations = {
+        1: [0, 0],
+        2: [0, 90],
+        3: [0, 180],
+        4: [0, -90],
+        5: [-90, 0],
+        6: [90, 0]
+      };
+      // Animación extra
+      const [x, y] = rotations[value];
+      const extraX = 360 * (Math.floor(Math.random() * 2) + 1);
+      const extraY = 360 * (Math.floor(Math.random() * 2) + 1);
+      diceElem.style.transform = `rotateX(${x + extraX}deg) rotateY(${y + extraY}deg)`;
+    }
+    function initDice(diceElem) {
+      diceElem.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    }
+    const dice1 = document.getElementById('dice');
+    const dice2 = document.getElementById('dice2');
+    dice1.addEventListener('click', () => rollDice(dice1));
+    dice1.addEventListener('touchstart', () => rollDice(dice1));
+    dice2.addEventListener('click', () => rollDice(dice2));
+    dice2.addEventListener('touchstart', () => rollDice(dice2));
+    // Inicializa ambos dados al cargar la página
+    initDice(dice1);
+    initDice(dice2);
+  </script>
+</body>
+</html>
