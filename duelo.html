@@ -11,51 +11,26 @@
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden; 
-            background-color: #2c3e50; 
+            overflow: hidden; /* Evita el scroll */
+            background-color: #2c3e50; /* Color de fondo inicial (oscuro) */
             font-family: 'Segoe UI', sans-serif;
-            transition: background-color 0.5s ease; 
-            user-select: none; 
+            transition: background-color 0.5s ease; /* Transición suave al color ganador */
+            user-select: none; /* Evita que se seleccione texto al tocar */
             -webkit-user-select: none;
-            touch-action: none; 
+            touch-action: none; /* Deshabilita gestos del navegador (zoom, swipe) */
         }
 
-        /* 🟢 NUEVO CONTENEDOR: Selector Fijo Arriba */
-        #selector-container {
-            position: fixed; /* Fijo para que no se mueva */
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%); /* Centrado horizontal */
-            z-index: 100; 
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            pointer-events: auto; /* Permite interacciones */
-            font-size: 16px;
-        }
-
-        /* Contenedor de instrucciones (Vuelve al centro) */
+        /* Contenedor de instrucciones */
         #instrucciones {
             position: absolute;
-            /* 🔴 REVERSIÓN: Volver al centro */
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); 
-            
+            transform: translate(-50%, -50%);
             color: rgba(255, 255, 255, 0.5);
             font-size: 24px;
             text-align: center;
-            /* No necesita pointer-events: auto; porque el selector ya no está aquí */
-            pointer-events: none; /* Dejar que los toques pasen a las huellas */
+            pointer-events: none; /* Permite tocar a través del texto */
             font-family: "Chewy", system-ui;
-            z-index: 50; 
-        }
-        
-        /* Asegurar que las huellas no cubran el selector */
-        #instrucciones p {
-            pointer-events: none;
         }
 
         /* --- ESTILOS DE LOS CÍRCULOS (HUELLAS) --- */
@@ -65,7 +40,7 @@
             height: 100px;
             border-radius: 50%;
             border: 8px solid white;
-            transform: translate(-50%, -50%) scale(0); 
+            transform: translate(-50%, -50%) scale(0); /* Empieza pequeño */
             animation: aparecer 0.3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 30px rgba(255,255,255,0.2);
             z-index: 10;
@@ -97,7 +72,7 @@
             to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
 
-        /* Botón para volver al inicio */
+        /* Botón para volver al inicio (opcional) */
         .btn-volver {
             position: fixed;
             bottom: 20px;
@@ -108,53 +83,45 @@
             border-radius: 20px;
             text-decoration: none;
             z-index: 100;
-            font-weight: bold; 
+            font-weight: bold;
+			touch-action: auto;
         }
     </style>
 </head>
 <body>
-    
-    <div id="selector-container">
-        <label for="numGanadores">Nº de 🏆:</label>
-        <select id="numGanadores" style="padding: 5px; border-radius: 5px; font-size: 18px; color: #34495e;">
-            <option value="1">1 🏆</option>
-            <option value="2">2 🏆</option>
-            <option value="3">3 🏆</option>
-            <option value="4">4 🏆</option>
-            <option value="5">5 🏆</option>
-        </select>
-    </div>
 
     <div id="instrucciones">
-        <p>Colocad los dedos en la pantalla</p>
-        <p style="font-size: 16px;">(Mínimo 2 jugadores)</p>
+        <p>Dedos na pantalla</p>
+        <p style="font-size: 16px;">(Mínimo 2 Húmedos)</p>
     </div>
 
 
     <script>
         // --- CONFIGURACIÓN ---
         const TIEMPO_ESPERA = 3000; // 3 segundos
+        // Paleta de colores vibrantes para cada dedo
         const COLORES = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#1abc9c', '#ff006e'];
         
         // --- VARIABLES DE ESTADO ---
-        let toquesActivos = {}; 
+        let toquesActivos = {}; // Guardará los dedos: { idToque: elementoDiv }
         let temporizador = null;
         let juegoTerminado = false;
 
         // Elementos del DOM
         const body = document.body;
         const instrucciones = document.getElementById('instrucciones');
-        const selectorGanadores = document.getElementById('numGanadores'); 
 
         // --- MANEJO DE EVENTOS TÁCTILES ---
 
+        // 1. Al tocar la pantalla (touchstart)
         document.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
+            e.preventDefault(); // Evita scroll y zoom
             if (juegoTerminado) {
-                reiniciarJuego(); 
+                reiniciarJuego(); // Si el juego acabó, un toque reinicia
                 return;
             }
 
+            // Procesar cada dedo nuevo que toca la pantalla
             for (let i = 0; i < e.changedTouches.length; i++) {
                 const toque = e.changedTouches[i];
                 crearHuella(toque);
@@ -164,6 +131,7 @@
 
         }, { passive: false });
 
+        // 2. Al levantar el dedo (touchend y touchcancel)
         const removerToque = (e) => {
             e.preventDefault();
             for (let i = 0; i < e.changedTouches.length; i++) {
@@ -171,11 +139,126 @@
                 eliminarHuella(toque.identifier);
             }
             
+            // Si alguien levanta el dedo antes de tiempo, cancelamos el temporizador
             if (!juegoTerminado) {
                 clearTimeout(temporizador);
                 temporizador = null;
-                body.style.backgroundColor = '#2c3e50'; 
+                body.style.backgroundColor = '#2c3e50'; // Volver a fondo oscuro
                 instrucciones.style.display = 'block';
+                instrucciones.innerHTML = "<p>¡Non sexas cagón!</p>";
+                setTimeout(() => {
+                    if(!temporizador) instrucciones.innerHTML = "<p>Miñocas,dedos na pantalla</p>";
+                }, 1000);
+            }
+        };
+
+        document.addEventListener('touchend', removerToque);
+        document.addEventListener('touchcancel', removerToque);
+
+        // 3. Al mover el dedo (opcional, solo actualizamos posición)
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (juegoTerminado) return;
+
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const toque = e.changedTouches[i];
+                const huella = toquesActivos[toque.identifier];
+                if (huella) {
+                    huella.style.left = toque.clientX + 'px';
+                    huella.style.top = toque.clientY + 'px';
+                }
+            }
+        }, { passive: false });
+
+
+        // --- LÓGICA DEL JUEGO ---
+
+        function crearHuella(toque) {
+            // Asignar un color aleatorio o secuencial
+            const color = COLORES[Object.keys(toquesActivos).length % COLORES.length];
+
+            // Crear el elemento visual
+            const div = document.createElement('div');
+            div.className = 'huella esperando';
+            div.style.borderColor = color;
+            div.style.left = toque.clientX + 'px';
+            div.style.top = toque.clientY + 'px';
+            
+            // Guardamos el color en el elemento para usarlo luego
+            div.dataset.color = color;
+
+            document.body.appendChild(div);
+
+            // Guardar en nuestro registro
+            toquesActivos[toque.identifier] = div;
+        }
+
+        function eliminarHuella(id) {
+            const huella = toquesActivos[id];
+            if (huella) {
+                huella.remove();
+                delete toquesActivos[id];
+            }
+        }
+
+        function verificarInicioJuego() {
+            // Cancelar temporizador anterior si entra un dedo nuevo para reiniciar cuenta
+            if (temporizador) clearTimeout(temporizador);
+
+            const numeroJugadores = Object.keys(toquesActivos).length;
+
+            if (numeroJugadores >= 2) {
+                instrucciones.style.display = 'none'; // Ocultar texto
                 
-                // 🔴 SIMPLIFICADO: Ya no necesitamos recrear el selector, solo los mensajes
-                instrucciones.innerHTML = '<p>¡No levantéis los dedos!</p><p style="font-size: 16px;">(Mínimo 2 jugadores)</p
+                // Iniciar cuenta atrás de 3 segundos
+                temporizador = setTimeout(seleccionarGanador, TIEMPO_ESPERA);
+            } else {
+                instrucciones.style.display = 'block';
+                instrucciones.innerHTML = "<p>Esperando máis Húmedos...</p>";
+            }
+        }
+
+        function seleccionarGanador() {
+            juegoTerminado = true;
+            
+            // Obtener todos los IDs de los toques actuales
+            const ids = Object.keys(toquesActivos);
+            
+            // Elegir uno al azar
+            const idGanador = ids[Math.floor(Math.random() * ids.length)];
+            const huellaGanadora = toquesActivos[idGanador];
+            const colorGanador = huellaGanadora.dataset.color;
+
+            // 1. Cambiar color de fondo
+            body.style.backgroundColor = colorGanador;
+
+            // 2. Resaltar la huella ganadora y ocultar las demás
+            ids.forEach(id => {
+                const huella = toquesActivos[id];
+                if (id === idGanador) {
+                    huella.classList.remove('esperando');
+                    huella.classList.add('Chupito para...');
+                } else {
+                    huella.style.opacity = '0'; // Ocultar perdedores
+                }
+            });
+
+            instrucciones.style.display = 'block';
+            instrucciones.innerHTML = "<p style='color:white; font-size:40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5)'>¡TENEMOS UN ELEGIDO!</p><p style='font-size:18px; color:white'>Toca para reiniciar</p>";
+        }
+
+        function reiniciarJuego() {
+            juegoTerminado = false;
+            body.style.backgroundColor = '#2c3e50';
+            instrucciones.innerHTML = "<p>Dedos na pantalla</p>";
+            
+            // Limpiar todas las huellas
+            Object.values(toquesActivos).forEach(el => el.remove());
+            toquesActivos = {};
+            
+            // El juego queda listo para nuevos toques
+        }
+
+    </script>
+</body>
+</html>
