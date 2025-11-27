@@ -1,46 +1,264 @@
-/* --- ESTILOS CARD MODIFICADOS --- */
-.card {
-  width: 100%;
-  height: 250px;
-  perspective: 1000px;
-  text-decoration: none;
-  /* Estos estilos son nuevos para que la tarjeta se comporte como el boton-web */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Duelo - Brigada dos Húmedos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS GENERALES DEL JUEGO --- */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Evita el scroll */
+            background-color: #2c3e50; /* Color de fondo inicial (oscuro) */
+            font-family: 'Segoe UI', sans-serif;
+            transition: background-color 0.5s ease; /* Transición suave al color ganador */
+            user-select: none; /* Evita que se seleccione texto al tocar */
+            -webkit-user-select: none;
+            touch-action: none; /* Deshabilita gestos del navegador (zoom, swipe) */
+        }
 
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-}
+        /* Contenedor de instrucciones */
+        #instrucciones {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 24px;
+            text-align: center;
+            pointer-events: none; /* Permite tocar a través del texto */
+            font-family: "Chewy", system-ui;
+        }
 
-.card > div {
-  width: 100%; /* Cambiado de 85% a 100% para ocupar todo el espacio */
-  height: 100%; /* Cambiado de 85% a 100% para ocupar todo el espacio */
-  backface-visibility: hidden;
-  border-radius: 14px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.8s;
-  
-  /* **CAMBIO CLAVE: Alineación para el nombre** */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Alinea el contenido (el nombre) en la parte superior */
-  text-align: center;
-  
-  color: white;
-  font-size: 30px; /* Tamaño de fuente del nombre */
-  font-weight: bold;
-  padding: 20px; /* Espacio para que el nombre no toque el borde */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /* Sombra de texto para visibilidad */
-}
+        /* --- ESTILOS DE LOS CÍRCULOS (HUELLAS) --- */
+        .huella {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 8px solid white;
+            transform: translate(-50%, -50%) scale(0); /* Empieza pequeño */
+            animation: aparecer 0.3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            z-index: 10;
+        }
 
-/* Cara frontal */
-.card .front {
-  background-size: cover;
-  background-position: center;
-}
-/* --- FIN ESTILOS CARD MODIFICADOS --- */
+        /* Animación de latido mientras esperan */
+        .huella.esperando {
+            animation: latido 1s infinite alternate;
+        }
+
+        /* Estilo para la huella ganadora */
+        .huella.ganador {
+            background-color: white;
+            box-shadow: 0 0 50px white;
+            transform: translate(-50%, -50%) scale(1.3);
+            border-color: white;
+            z-index: 20;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Animación de entrada */
+        @keyframes aparecer {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Animación de espera */
+        @keyframes latido {
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+            to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* Botón para volver al inicio (opcional) */
+        .btn-volver {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            z-index: 100;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="instrucciones">
+        <p>Colocad los dedos en la pantalla</p>
+        <p style="font-size: 16px;">(Mínimo 2 jugadores)</p>
+    </div>
+
+    <a href="index.html" class="btn-volver">← Inicio</a>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        const TIEMPO_ESPERA = 3000; // 3 segundos
+        // Paleta de colores vibrantes para cada dedo
+        const COLORES = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#1abc9c', '#ff006e'];
+        
+        // --- VARIABLES DE ESTADO ---
+        let toquesActivos = {}; // Guardará los dedos: { idToque: elementoDiv }
+        let temporizador = null;
+        let juegoTerminado = false;
+
+        // Elementos del DOM
+        const body = document.body;
+        const instrucciones = document.getElementById('instrucciones');
+
+        // --- MANEJO DE EVENTOS TÁCTILES ---
+
+        // 1. Al tocar la pantalla (touchstart)
+        document.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Evita scroll y zoom
+            if (juegoTerminado) {
+                reiniciarJuego(); // Si el juego acabó, un toque reinicia
+                return;
+            }
+
+            // Procesar cada dedo nuevo que toca la pantalla
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const toque = e.changedTouches[i];
+                crearHuella(toque);
+            }
+
+            verificarInicioJuego();
+
+        }, { passive: false });
+
+        // 2. Al levantar el dedo (touchend y touchcancel)
+        const removerToque = (e) => {
+            e.preventDefault();
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const toque = e.changedTouches[i];
+                eliminarHuella(toque.identifier);
+            }
+            
+            // Si alguien levanta el dedo antes de tiempo, cancelamos el temporizador
+            if (!juegoTerminado) {
+                clearTimeout(temporizador);
+                temporizador = null;
+                body.style.backgroundColor = '#2c3e50'; // Volver a fondo oscuro
+                instrucciones.style.display = 'block';
+                instrucciones.innerHTML = "<p>¡No levantéis los dedos!</p>";
+                setTimeout(() => {
+                    if(!temporizador) instrucciones.innerHTML = "<p>Colocad los dedos en la pantalla</p>";
+                }, 1000);
+            }
+        };
+
+        document.addEventListener('touchend', removerToque);
+        document.addEventListener('touchcancel', removerToque);
+
+        // 3. Al mover el dedo (opcional, solo actualizamos posición)
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (juegoTerminado) return;
+
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const toque = e.changedTouches[i];
+                const huella = toquesActivos[toque.identifier];
+                if (huella) {
+                    huella.style.left = toque.clientX + 'px';
+                    huella.style.top = toque.clientY + 'px';
+                }
+            }
+        }, { passive: false });
+
+
+        // --- LÓGICA DEL JUEGO ---
+
+        function crearHuella(toque) {
+            // Asignar un color aleatorio o secuencial
+            const color = COLORES[Object.keys(toquesActivos).length % COLORES.length];
+
+            // Crear el elemento visual
+            const div = document.createElement('div');
+            div.className = 'huella esperando';
+            div.style.borderColor = color;
+            div.style.left = toque.clientX + 'px';
+            div.style.top = toque.clientY + 'px';
+            
+            // Guardamos el color en el elemento para usarlo luego
+            div.dataset.color = color;
+
+            document.body.appendChild(div);
+
+            // Guardar en nuestro registro
+            toquesActivos[toque.identifier] = div;
+        }
+
+        function eliminarHuella(id) {
+            const huella = toquesActivos[id];
+            if (huella) {
+                huella.remove();
+                delete toquesActivos[id];
+            }
+        }
+
+        function verificarInicioJuego() {
+            // Cancelar temporizador anterior si entra un dedo nuevo para reiniciar cuenta
+            if (temporizador) clearTimeout(temporizador);
+
+            const numeroJugadores = Object.keys(toquesActivos).length;
+
+            if (numeroJugadores >= 2) {
+                instrucciones.style.display = 'none'; // Ocultar texto
+                
+                // Iniciar cuenta atrás de 3 segundos
+                temporizador = setTimeout(seleccionarGanador, TIEMPO_ESPERA);
+            } else {
+                instrucciones.style.display = 'block';
+                instrucciones.innerHTML = "<p>Esperando más jugadores...</p>";
+            }
+        }
+
+        function seleccionarGanador() {
+            juegoTerminado = true;
+            
+            // Obtener todos los IDs de los toques actuales
+            const ids = Object.keys(toquesActivos);
+            
+            // Elegir uno al azar
+            const idGanador = ids[Math.floor(Math.random() * ids.length)];
+            const huellaGanadora = toquesActivos[idGanador];
+            const colorGanador = huellaGanadora.dataset.color;
+
+            // 1. Cambiar color de fondo
+            body.style.backgroundColor = colorGanador;
+
+            // 2. Resaltar la huella ganadora y ocultar las demás
+            ids.forEach(id => {
+                const huella = toquesActivos[id];
+                if (id === idGanador) {
+                    huella.classList.remove('esperando');
+                    huella.classList.add('ganador');
+                } else {
+                    huella.style.opacity = '0'; // Ocultar perdedores
+                }
+            });
+
+            instrucciones.style.display = 'block';
+            instrucciones.innerHTML = "<p style='color:white; font-size:40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5)'>¡TENEMOS UN ELEGIDO!</p><p style='font-size:18px; color:white'>Toca para reiniciar</p>";
+        }
+
+        function reiniciarJuego() {
+            juegoTerminado = false;
+            body.style.backgroundColor = '#2c3e50';
+            instrucciones.innerHTML = "<p>Colocad los dedos en la pantalla</p>";
+            
+            // Limpiar todas las huellas
+            Object.values(toquesActivos).forEach(el => el.remove());
+            toquesActivos = {};
+            
+            // El juego queda listo para nuevos toques
+        }
+
+    </script>
+</body>
+</html>
