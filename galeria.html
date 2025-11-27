@@ -44,6 +44,54 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
+    /* Menú lateral */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      background-color: #2c3e50;
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 12px 24px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #f1f1f1;
+      display: block;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    .openbtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      z-index: 1100;
+    }
+
+    .closebtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+    }
+
     /* GALERÍA */
     .galeria-grid {
       display: grid;
@@ -127,6 +175,17 @@
   </style>
 </head>
 <body>
+
+  <!-- Menú lateral -->
+  <div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="index.html">Inicio</a>
+    <a href="duelo.html">Duelo</a>
+    <a href="galeria.html">Galería</a>
+  </div>
+
+  <!-- Botón hamburguesa -->
+  <span class="openbtn" onclick="openNav()">☰</span>
 
   <a href="index.html" class="btn-volver">← Volver al Inicio</a>
 
@@ -232,9 +291,15 @@
     // Iniciar la carga
     cargarGaleria();
 
+    // Funciones para abrir y cerrar el menú lateral
+    function openNav() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("sidebar").style.width = "0";
+    }
   </script>
 
 </body>
 </html>
-
-
