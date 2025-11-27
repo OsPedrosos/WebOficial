@@ -13,7 +13,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
+      padding: 1px 20px 20px 20px;
       text-align: center;
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('41515.jpg') no-repeat center center fixed;
@@ -390,6 +390,21 @@
   #mes-anio { font-size: 22px; }
   table { width: 100%; font-size: 14px; }
   #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
+  
+   h1 .separar-palabras {
+    display: block; /* Asegura que cada palabra de "Brigada dos Húmedos" esté en una línea */
+  }
+
+  h1 .separar-palabras span {
+    display: block;  /* Hacer que cada palabra ocupe una línea separada */
+    margin-bottom: 20px; /* Espacio entre las palabras */
+  }
+
+  /* Aseguramos que la palabra "ONG" no se vea afectada */
+  h1 span:not(.separar-palabras) {
+    display: inline-block; /* ONG sigue en una línea */
+  }
+  
 }
 
 
@@ -425,6 +440,7 @@
 
 
 
+
     
   </style>
 </head>
@@ -444,9 +460,12 @@
 <div class="content-wrapper">
 
 
-  <h1 class="chewy-regular" style="color:#000000;">
+<h1 class="chewy-regular" style="color:#000000;">
   <span style="font-size:120px; display:block;">ONG</span>
-  <span style="font-size:85px; display:block;">Brigada dos Húmedos</span>
+  <span style="font-size:85px; display:block;" class="separar-palabras">
+    <span>Brigada</span>
+    <span>dos Húmedos</span>
+  </span>
 </h1>
 
 
