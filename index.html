@@ -162,9 +162,26 @@
 
 /* Cara trasera */
 .card .back {
-  transform: rotateY(180deg);
-  background-color: #2980b9;
-  font-size: 20px;
+    transform: rotateY(180deg);
+    
+    /* --- INICIO: PROPIEDADES AÑADIDAS/MODIFICADAS --- */
+    background-size: cover; /* Ajusta el GIF para que cubra la tarjeta */
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Crea una capa semitransparente azul sobre el GIF para que el texto se lea bien */
+    background-blend-mode: overlay; 
+    background-color: rgba(41, 128, 185, 0.5); /* Color azul con 85% de opacidad */
+    
+    /* Asegura que el contenido (párrafo) esté centrado en la cara trasera */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* --- FIN: PROPIEDADES AÑADIDAS/MODIFICADAS --- */
+
+    font-size: 20px;
+    padding: 20px;
+    box-sizing: border-box; /* Añadido para mejor manejo de padding */
 }
 
 /* Efecto de giro */
@@ -449,22 +466,22 @@
 
   <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
         <div class="front" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</div>
-        <div class="back">
-            <p>Angel: Descripción de Angel.</p>
+        <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
         </div>
     </a>
 
     <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
         <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-        <div class="back">
-            <p>Raul: Descripción de Raul.</p>
+        <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
         </div>
     </a>
 
     <a class="card" href="URL_DEL_4" target="_blank">
         <div class="front" style="background-image: url('imagen4.jpeg'); background-position: center 50%;">Nombre4</div>
-        <div class="back">
-            <p>Descripción del Húmedo 4.</p>
+        <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
         </div>
     </a>
 
