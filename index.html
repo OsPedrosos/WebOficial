@@ -134,24 +134,27 @@
 }
 
 .card > div {
-  width: 85%;
-  height: 85%;
-  backface-visibility: hidden;
-  border-radius: 14px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.8s;
-  display: flex;
-  justify-content: center;
-  align-items: top;
-  text-align: center;
-  color: white;
-  font-size: 30px; /* Tamaño de fuente del nombre */
-  font-weight: bold;
-  padding: 20px; /* Espacio para que el nombre no toque el borde */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /* Sombra de texto para visibilidad */
+    /* CORREGIDO: Usar 100% para que ocupen todo el contenedor .card */
+    width: 100%; 
+    height: 100%;
+    
+    backface-visibility: hidden;
+    border-radius: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.8s;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    text-align: center;
+    color: white;
+    font-size: 30px; 
+    font-weight: bold;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    box-sizing: border-box; /* Añadido para incluir el padding en el 100% */
 }
 
 /* Cara frontal */
