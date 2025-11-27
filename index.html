@@ -302,18 +302,21 @@
       box-shadow: 0 6px 14px rgba(33, 125, 187, 0.4);
     }
 
-    @media (max-width: 768px) {
-      .chewy-regular {
-      /*line-height: 1.1; /* separa más las líneas */
-      h1 { font-size: 68px; }
-      h2 { font-size: 20px; }
-      .botones-grid { grid-template-columns: 1fr; }
-      .boton-web { height: 120px; font-size: 18px; }
-      .navegacion { flex-direction: column; gap: 10px; }
-      #mes-anio { font-size: 22px; }
-      table { width: 100%; font-size: 14px; }
-      #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
-    }
+@media (max-width: 768px) {
+
+  .chewy-regular {
+    /* line-height: 1.1; */
+  }
+
+  h1 { font-size: 68px; }
+  h2 { font-size: 20px; }
+  .botones-grid { grid-template-columns: 1fr; }
+  .boton-web { height: 120px; font-size: 18px; }
+  .navegacion { flex-direction: column; gap: 10px; }
+  #mes-anio { font-size: 22px; }
+  table { width: 100%; font-size: 14px; }
+  #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
+}
 
     /* Añade este bloque al final de tu sección <style> */
 
@@ -351,7 +354,11 @@
 </h1>
 
 
-<h3><span class="chewy-regular" style="font-size:60px; style="color:#c41a1a;">Adopta un Húmedo</span></h3>
+<h3>
+  <span class="chewy-regular" style="font-size:60px; color:#c41a1a;">
+    Adopta un Húmedo
+  </span>
+</h3>
 
 
 
