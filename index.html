@@ -13,6 +13,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 1px 20px 20px 20px;
       text-align: center;
+      /* Fondo casi blanco (0.9), por lo que usaremos blanco para cortar la linea del borde */
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('41515.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -96,11 +97,35 @@
     .botones-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 30px; /* Aumentado un poco el gap para los bordes */
       max-width: 700px;
       margin: 40px auto;
       padding: 0 10px;
     }
+
+    /* --- ESTILOS NUEVOS PARA EL MARCO ROJO Y ETIQUETA --- */
+    .card-wrapper {
+      position: relative;
+      border: 3px solid #e74c3c; /* Color rojo */
+      border-radius: 20px;
+      padding: 8px; /* Espacio entre el borde rojo y la carta */
+      margin-top: 10px; /* Espacio extra arriba para la etiqueta */
+    }
+
+    .card-label {
+      position: absolute;
+      top: -18px; /* Sube el texto para que quede sobre la línea */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ffffff; /* Fondo blanco para tapar la línea roja */
+      padding: 0 12px;
+      color: #e74c3c; /* Texto rojo */
+      font-family: "Chewy", system-ui;
+      font-size: 22px;
+      z-index: 5;
+      white-space: nowrap;
+    }
+    /* ---------------------------------------------------- */
 
     .boton-web {
       display: flex;
@@ -129,6 +154,7 @@
       height: 250px;
       perspective: 1000px;
       text-decoration: none;
+      display: block; /* Asegura que ocupe el wrapper */
     }
 
     .card > div {
@@ -186,7 +212,7 @@
       transform: rotateY(360deg);
     }
 
-    /* --- NUEVO: Efecto de giro activado por SCROLL (Clase .is-flipped) --- */
+    /* Efecto de giro activado por SCROLL (Clase .is-flipped) */
     .card.is-flipped .front {
       transform: rotateY(180deg);
     }
@@ -194,7 +220,6 @@
     .card.is-flipped .back {
       transform: rotateY(360deg);
     }
-    /* -------------------------------------------------------------------- */
 
     .navegacion {
       margin: 20px 0 10px;
@@ -454,39 +479,116 @@
 
     <div class="botones-grid">
       
-      <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
-        <div class="front" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</div>
-        <div class="back" style="background-image: url('mordisquitos.gif');">
-          <p>Mordisco = Cariño</p>
-        </div>
-      </a>
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
+          <div class="front" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</div>
+          <div class="back" style="background-image: url('mordisquitos.gif');">
+            <p>Mordiscos = Cariño</p>
+          </div>
+        </a>
+      </div>
 
-      <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
-        <div class="front" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</div>
-        <div class="back" style="background-image: url('vela.gif');">
-          <p>Experto en risas y caos semanal.</p>
-        </div>
-      </a>
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
+          <div class="front" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
 
-      <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-        <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-        <div class="back" style="background-image: url('vela.gif');">
-          <p>Experto en risas y caos semanal.</p>
-        </div>
-      </a>
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
 
-      <a class="card" href="URL_DEL_4" target="_blank">
-        <div class="front" style="background-image: url('imagen4.jpeg'); background-position: center 50%;">Nombre4</div>
-        <div class="back" style="background-image: url('vela.gif');">
-          <p>Experto en risas y caos semanal.</p>
-        </div>
-      </a>
-
-      <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
-      <a class="boton-web" href="https://www.instagram.com/lorenzoangel_/" target="_blank" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</a>
-      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
-      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
-      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/reyseppi/" target="_blank">
+          <div class="front" style="background-image: url('seppi.jpeg'); background-position: center 50%;">Seppi</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Tapu</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Marta</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Lucia</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Eligeme</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experto en risas y caos semanal.</p>
+          </div>
+        </a>
+      </div>
+      
     </div>
 
     <div class="navegacion">
@@ -504,13 +606,12 @@
 
     <script>
 
-// --- CÓDIGO ACTUALIZADO PARA EFECTO "ECUADOR" ---
+      // --- CÓDIGO ACTUALIZADO PARA EFECTO "ECUADOR" ---
       
       const observerOptions = {
         root: null, 
-        // Aquí está la magia:
-        // '-40% 0px -40% 0px' significa que ignoramos el 40% de arriba y el 40% de abajo.
-        // La tarjeta solo se detectará en la franja central (el 20% del medio).
+        // '-50% 0px -50% 0px' significa que ignoramos el 50% de arriba y el 50% de abajo.
+        // La tarjeta solo se detectará en la línea exacta del centro.
         rootMargin: '-50% 0px -50% 0px', 
         
         // threshold 0 significa "en cuanto toque esa línea central, actívate"
@@ -529,13 +630,13 @@
         });
       }, observerOptions);
 
+      // Importante: El script busca .card, que ahora están dentro de los wrappers. 
+      // Esto funciona perfectamente sin cambiar el JS.
       document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
       });
 
       // --- FIN CÓDIGO ACTUALIZADO ---
-
-      // --- FIN CÓDIGO NUEVO ---
 
       const eventos = {
         "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
