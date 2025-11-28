@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,19 +48,19 @@
       background-color: #34495e;
     }
 
-.openbtn {
-  position: fixed;      /* Lo posiciona respecto al viewport */
-  top: 10px;
-  left: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  z-index: 1100;         /* Más alto que el sidebar */
-}
+    .openbtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      z-index: 1100;
+    }
 
     .closebtn {
       position: absolute;
@@ -76,7 +74,7 @@
       max-width: 600px;
       height: auto;
       display: block;
-      margin: 40px auto 20px; /* aquí cambié el margen superior a 30px */
+      margin: 40px auto 20px;
     }
 
     h1 {
@@ -125,79 +123,78 @@
       transform: scale(1.03);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
     }
-	
-	.card {
-  width: 100%;
-  height: 250px;
-  perspective: 1000px;
-  text-decoration: none;
-}
-
-.card > div {
-    /* CORREGIDO: Usar 100% para que ocupen todo el contenedor .card */
-    width: 100%; 
-    height: 100%;
     
-    backface-visibility: hidden;
-    border-radius: 14px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: transform 0.8s;
-    display: flex;
-    justify-content: center;
-    align-items: top;
-    text-align: center;
-    color: white;
-    font-size: 30px; 
-    font-weight: bold;
-    padding: 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-    box-sizing: border-box; /* Añadido para incluir el padding en el 100% */
-}
+    .card {
+      width: 100%;
+      height: 250px;
+      perspective: 1000px;
+      text-decoration: none;
+    }
 
-/* Cara frontal */
-.card .front {
-  background-size: cover;
-  background-position: center;
-}
+    .card > div {
+      width: 100%; 
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 14px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.8s;
+      display: flex;
+      justify-content: center;
+      align-items: top;
+      text-align: center;
+      color: white;
+      font-size: 30px; 
+      font-weight: bold;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
+    }
 
-/* Cara trasera */
-.card .back {
-    transform: rotateY(180deg);
-    
-    /* --- INICIO: PROPIEDADES AÑADIDAS/MODIFICADAS --- */
-    background-size: cover; /* Ajusta el GIF para que cubra la tarjeta */
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Crea una capa semitransparente azul sobre el GIF para que el texto se lea bien */
-    background-blend-mode: overlay; 
-    background-color: rgba(41, 128, 185, 0.5); /* Color azul con 85% de opacidad */
-    
-    /* Asegura que el contenido (párrafo) esté centrado en la cara trasera */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* --- FIN: PROPIEDADES AÑADIDAS/MODIFICADAS --- */
+    /* Cara frontal */
+    .card .front {
+      background-size: cover;
+      background-position: center;
+    }
 
-    font-size: 20px;
-    padding: 20px;
-    box-sizing: border-box; /* Añadido para mejor manejo de padding */
-}
+    /* Cara trasera */
+    .card .back {
+      transform: rotateY(180deg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-blend-mode: overlay; 
+      background-color: rgba(41, 128, 185, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
-/* Efecto de giro */
-.card:hover .front,
-.card:active .front {
-  transform: rotateY(180deg);
-}
+    /* Efecto de giro HOVER (Para escritorio con ratón) */
+    .card:hover .front,
+    .card:active .front {
+      transform: rotateY(180deg);
+    }
 
-.card:hover .back,
-.card:active .back {
-  transform: rotateY(360deg);
-}
+    .card:hover .back,
+    .card:active .back {
+      transform: rotateY(360deg);
+    }
 
+    /* --- NUEVO: Efecto de giro activado por SCROLL (Clase .is-flipped) --- */
+    .card.is-flipped .front {
+      transform: rotateY(180deg);
+    }
+
+    .card.is-flipped .back {
+      transform: rotateY(360deg);
+    }
+    /* -------------------------------------------------------------------- */
 
     .navegacion {
       margin: 20px 0 10px;
@@ -375,258 +372,265 @@
       box-shadow: 0 6px 14px rgba(33, 125, 187, 0.4);
     }
 
-@media (max-width: 1024px) {
-.botones-grid {
-        grid-template-columns: repeat(2, 1fr); /* CORREGIDO: 2 columnas */
+    @media (max-width: 1024px) {
+      .botones-grid {
+        grid-template-columns: repeat(2, 1fr); 
+      }
+      h1 { font-size: 68px; }
+      h2 { font-size: 20px; }
+      .boton-web { height: 120px; font-size: 18px; }
+      #mes-anio { font-size: 22px; }
+      table { width: 100%; font-size: 14px; }
+      #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
+      
+      h1 .separar-palabras {
+        display: block; 
+      }
+
+      h1 .separar-palabras span {
+        display: block;  
+        margin-bottom: 20px; 
+      }
+
+      h1 span:not(.separar-palabras) {
+        display: inline-block; 
+      }
     }
-  .chewy-regular {
-    /* line-height: 1.1; */
-  }
 
-  h1 { font-size: 68px; }
-  h2 { font-size: 20px; }
-  .boton-web { height: 120px; font-size: 18px; }
- /* .navegacion { flex-direction: column; gap: 10px; }*/
-  #mes-anio { font-size: 22px; }
-  table { width: 100%; font-size: 14px; }
-  #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
-  
-   h1 .separar-palabras {
-    display: block; /* Asegura que cada palabra de "Brigada dos Húmedos" esté en una línea */
-  }
+    .chewy-regular {
+      line-height: 0.9; 
+      font-family: "Chewy", system-ui;
+      font-weight: 400;
+      font-style: normal;
+    }
 
-  h1 .separar-palabras span {
-    display: block;  /* Hacer que cada palabra ocupe una línea separada */
-    margin-bottom: 20px; /* Espacio entre las palabras */
-  }
+    .flecha {
+      padding: 10px 18px;
+      font-size: 28px;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(41,128,185,0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+      user-select: none;
+    }
 
-  /* Aseguramos que la palabra "ONG" no se vea afectada */
-  h1 span:not(.separar-palabras) {
-    display: inline-block; /* ONG sigue en una línea */
-  }
-  
-}
+    .flecha:hover {
+      background-color: #1f5a8a;
+      transform: scale(1.15);
+    }
 
-
-
-    /* Añade este bloque al final de tu sección <style> */
-
-  .chewy-regular {
-  line-height: 0.9; 
-  font-family: "Chewy", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.flecha {
-  padding: 10px 18px;
-  font-size: 28px;
-  border: none;
-  background-color: #2980b9;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(41,128,185,0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
-  user-select: none;
-}
-
-.flecha:hover {
-  background-color: #1f5a8a;
-  transform: scale(1.15);
-}
-
-
-
-
-
-    
   </style>
 </head>
 <body>
 
-  <!-- Menú lateral -->
   <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="index.html">Inicio</a>
     <a href="duelo.html">Chupito?</a>
-   <a href="galeria.html">Galería</a>
+    <a href="galeria.html">Galería</a>
   </div>
 
-  <!-- Botón hamburguesa -->
   <span class="openbtn" onclick="openNav()">☰</span>
 
-<div class="content-wrapper">
+  <div class="content-wrapper">
 
+    <h1 class="chewy-regular" style="color:#000000;">
+      <span style="font-size:120px; display:block;">ONG</span>
+      <span style="font-size:85px; display:block;" class="separar-palabras">
+        <span>Brigada</span>
+        <span>dos Húmedos</span>
+      </span>
+    </h1>
 
-<h1 class="chewy-regular" style="color:#000000;">
-  <span style="font-size:120px; display:block;">ONG</span>
-  <span style="font-size:85px; display:block;" class="separar-palabras">
-    <span>Brigada</span>
-    <span>dos Húmedos</span>
-  </span>
-</h1>
+    <h3>
+      <span class="chewy-regular" style="font-size:60px; color:#c41a1a;">
+        Adopta un Húmedo
+      </span>
+    </h3>
 
-
-<h3>
-  <span class="chewy-regular" style="font-size:60px; color:#c41a1a;">
-    Adopta un Húmedo
-  </span>
-</h3>
-
-
-
-  <div class="botones-grid">
-  
-<a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
+    <div class="botones-grid">
+      
+      <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
         <div class="front" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</div>
-        <div class="back" style="background-image: url('vela.gif');">
-            <p>Adri: experto en risas y caos semanal.</p>
+        <div class="back" style="background-image: url('mordisquitos.gif');">
+          <p>Mordisco = Cariño</p>
         </div>
-    </a>
+      </a>
 
-  <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
+      <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
         <div class="front" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</div>
         <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
+          <p>Experto en risas y caos semanal.</p>
         </div>
-    </a>
+      </a>
 
-    <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+      <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
         <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
         <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
+          <p>Experto en risas y caos semanal.</p>
         </div>
-    </a>
+      </a>
 
-    <a class="card" href="URL_DEL_4" target="_blank">
+      <a class="card" href="URL_DEL_4" target="_blank">
         <div class="front" style="background-image: url('imagen4.jpeg'); background-position: center 50%;">Nombre4</div>
         <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
+          <p>Experto en risas y caos semanal.</p>
         </div>
-    </a>
+      </a>
 
-    <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
-    <a class="boton-web" href="https://www.instagram.com/lorenzoangel_/" target="_blank" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</a>
-    <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
-    <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
-   <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
-  </div>
+      <a class="boton-web" href="https://www.instagram.com/adripedrossa/" target="_blank" style="background-image: url('adri.jpeg'); background-position: center 75%;">Adri</a>
+      <a class="boton-web" href="https://www.instagram.com/lorenzoangel_/" target="_blank" style="background-image: url('angel.jpeg'); background-position: center 40%;">Angel</a>
+      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
+      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
+      <a class="boton-web" href="https://www.instagram.com/raul8100/" target="_blank" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</a>
+    </div>
 
-  
-  <div class="navegacion">
-  <button class="flecha" onclick="cambiarMes(-1)">❮</button>
-  <span id="mes-anio"></span>
-  <button class="flecha" onclick="cambiarMes(1)">❯</button>
-</div>
+    <div class="navegacion">
+      <button class="flecha" onclick="cambiarMes(-1)">❮</button>
+      <span id="mes-anio"></span>
+      <button class="flecha" onclick="cambiarMes(1)">❯</button>
+    </div>
 
+    <div id="calendario"></div>
 
-  <div id="calendario"></div>
+    <div id="lista-eventos">
+      <h3>Eventos do mes</h3>
+      <ul id="eventos-mes"></ul>
+    </div>
 
-  <div id="lista-eventos">
-    <h3>Eventos do mes</h3>
-    <ul id="eventos-mes"></ul>
-  </div>
+    <script>
 
-  <script>
-    const eventos = {
-      "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
-      "2025-12-05": { etiqueta: "Cea da Brigada", ubicacion: "Ourense" },
-      "2025-12-24": { etiqueta: "Noiteboa", ubicacion: "Concello Enteiro" },
-      "2025-12-31": { etiqueta: "Fin de Ano", ubicacion: "Concello Enteiro" },
-      "2026-01-01": { etiqueta: "Fin de Ano", ubicacion: "Xinzo de Limia" }
-    };
+// --- CÓDIGO ACTUALIZADO PARA EFECTO "ECUADOR" ---
+      
+      const observerOptions = {
+        root: null, 
+        // Aquí está la magia:
+        // '-40% 0px -40% 0px' significa que ignoramos el 40% de arriba y el 40% de abajo.
+        // La tarjeta solo se detectará en la franja central (el 20% del medio).
+        rootMargin: '-50% 0px -50% 0px', 
+        
+        // threshold 0 significa "en cuanto toque esa línea central, actívate"
+        threshold: 0 
+      };
 
-    let mesActual, añoActual;
-    const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          // Si la tarjeta entra en la "franja central"
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-flipped');
+          } else {
+            // Si sale de la franja central (hacia arriba o hacia abajo)
+            entry.target.classList.remove('is-flipped');
+          }
+        });
+      }, observerOptions);
 
-    function crearCalendario(mes, año) {
-      mesActual = mes;
-      añoActual = año;
-      document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
+      document.querySelectorAll('.card').forEach(card => {
+        observer.observe(card);
+      });
 
-      const diasMes = new Date(año, mes + 1, 0).getDate();
-      let primerDia = new Date(año, mes, 1).getDay();
-      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+      // --- FIN CÓDIGO ACTUALIZADO ---
 
-      const hoy = new Date();
-      const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
+      // --- FIN CÓDIGO NUEVO ---
 
-      let html = '<table><tr>';
-      const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
-      diasSemana.forEach(dia => html += `<th>${dia}</th>`);
-      html += '</tr><tr>';
+      const eventos = {
+        "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
+        "2025-12-05": { etiqueta: "Cea da Brigada", ubicacion: "Ourense" },
+        "2025-12-24": { etiqueta: "Noiteboa", ubicacion: "Concello Enteiro" },
+        "2025-12-31": { etiqueta: "Fin de Ano", ubicacion: "Concello Enteiro" },
+        "2026-01-01": { etiqueta: "Fin de Ano", ubicacion: "Xinzo de Limia" }
+      };
 
-      for (let i = 0; i < primerDia; i++) html += '<td></td>';
+      let mesActual, añoActual;
+      const nombresMeses = ["Xaneiro", "Febreiro", "Marzo", "Abril", "Maio", "Xuño", "Xullo", "Agosto", "Setembro", "Outubro", "Novembro", "Decembro"];
 
-      for (let dia = 1; dia <= diasMes; dia++) {
-        const esHoy = esEsteMes && dia === hoy.getDate();
-        const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-        const tieneEvento = eventos.hasOwnProperty(fechaStr);
-        let clase = '';
-        let tooltip = '';
+      function crearCalendario(mes, año) {
+        mesActual = mes;
+        añoActual = año;
+        document.getElementById('mes-anio').textContent = `${nombresMeses[mes]} ${año}`;
 
-        if (esHoy) clase = 'hoy';
-        else if (tieneEvento) clase = 'evento';
+        const diasMes = new Date(año, mes + 1, 0).getDate();
+        let primerDia = new Date(año, mes, 1).getDay();
+        primerDia = (primerDia === 0) ? 6 : primerDia - 1;
 
-        if (tieneEvento) {
-          const evento = eventos[fechaStr];
-          tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
+        const hoy = new Date();
+        const esEsteMes = mes === hoy.getMonth() && año === hoy.getFullYear();
+
+        let html = '<table><tr>';
+        const diasSemana = ['Lun', 'Mar', 'Mer', 'Xov', 'Ven', 'Sáb', 'Dom'];
+        diasSemana.forEach(dia => html += `<th>${dia}</th>`);
+        html += '</tr><tr>';
+
+        for (let i = 0; i < primerDia; i++) html += '<td></td>';
+
+        for (let dia = 1; dia <= diasMes; dia++) {
+          const esHoy = esEsteMes && dia === hoy.getDate();
+          const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+          const tieneEvento = eventos.hasOwnProperty(fechaStr);
+          let clase = '';
+          let tooltip = '';
+
+          if (esHoy) clase = 'hoy';
+          else if (tieneEvento) clase = 'evento';
+
+          if (tieneEvento) {
+            const evento = eventos[fechaStr];
+            tooltip = `<div class="tooltip"><strong>${evento.etiqueta}</strong><br><small>${evento.ubicacion}</small></div>`;
+          }
+
+          html += `<td class="${clase}">${dia}${tooltip}</td>`;
+          if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
         }
 
-        html += `<td class="${clase}">${dia}${tooltip}</td>`;
-        if ((dia + primerDia) % 7 === 0) html += '</tr><tr>';
+        html += '</tr></table>';
+        document.getElementById('calendario').innerHTML = html;
+        mostrarEventosMes(mes, año);
       }
 
-      html += '</tr></table>';
-      document.getElementById('calendario').innerHTML = html;
-      mostrarEventosMes(mes, año);
-    }
+      function mostrarEventosMes(mes, año) {
+        const ul = document.getElementById('eventos-mes');
+        ul.innerHTML = '';
+        const eventosDelMes = Object.entries(eventos)
+          .filter(([fecha]) => {
+            const [a, m] = fecha.split('-').map(Number);
+            return a === año && (m - 1) === mes;
+          })
+          .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
 
-    function mostrarEventosMes(mes, año) {
-      const ul = document.getElementById('eventos-mes');
-      ul.innerHTML = '';
-      const eventosDelMes = Object.entries(eventos)
-        .filter(([fecha]) => {
-          const [a, m] = fecha.split('-').map(Number);
-          return a === año && (m - 1) === mes;
-        })
-        .sort((a, b) => Number(a[0].split('-')[2]) - Number(b[0].split('-')[2]));
+        if (eventosDelMes.length === 0) {
+          ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
+          return;
+        }
 
-      if (eventosDelMes.length === 0) {
-        ul.innerHTML = '<li style="background:#bdc3c7; color:#2c3e50; cursor: default;">No hay eventos este mes.</li>';
-        return;
+        eventosDelMes.forEach(([fecha, evento]) => {
+          const dia = Number(fecha.split('-')[2]);
+          const li = document.createElement('li');
+          li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
+          ul.appendChild(li);
+        });
       }
 
-      eventosDelMes.forEach(([fecha, evento]) => {
-        const dia = Number(fecha.split('-')[2]);
-        const li = document.createElement('li');
-        li.textContent = `${dia} - ${evento.etiqueta} (${evento.ubicacion})`;
-        ul.appendChild(li);
-      });
-    }
+      function cambiarMes(direccion) {
+        mesActual += direccion;
+        if (mesActual < 0) { mesActual = 11; añoActual--; }
+        else if (mesActual > 11) { mesActual = 0; añoActual++; }
+        crearCalendario(mesActual, añoActual);
+      }
 
-    function cambiarMes(direccion) {
-      mesActual += direccion;
-      if (mesActual < 0) { mesActual = 11; añoActual--; }
-      else if (mesActual > 11) { mesActual = 0; añoActual++; }
-      crearCalendario(mesActual, añoActual);
-    }
+      const fechaActual = new Date();
+      crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
 
-    const fechaActual = new Date();
-    crearCalendario(fechaActual.getMonth(), fechaActual.getFullYear());
+      function openNav() {
+        document.getElementById("sidebar").style.width = "250px";
+      }
 
-    function openNav() {
-      document.getElementById("sidebar").style.width = "250px";
-    }
-
-    function closeNav() {
-      document.getElementById("sidebar").style.width = "0";
-    }
-  </script>
-
-
-  
+      function closeNav() {
+        document.getElementById("sidebar").style.width = "0";
+      }
+    </script>
 </body>
 </html>
