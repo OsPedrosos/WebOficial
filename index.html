@@ -9,23 +9,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ONG Os Húmedos</title>
   <style>
-      :root {
-  --vh: 1vh; /* Valor por defecto */
-}
+    /* 1. ELIMINADA LA VARIABLE CSS --vh (No necesaria/problemática con fixed)
+      2. USAMOS 100% PARA MIN-HEIGHT (solución más compatible con fixed en móviles)
+    */
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 1px 20px 20px 20px;
       text-align: center;
+      
+      /* Solución más estable: usa 'fixed' y solo '100%'. 
+         Si 'fixed' falla en móviles, no hay una solución 100% garantizada por CSS. */
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('doodles.png') no-repeat center center fixed;
       background-size: cover;
+      
       color: #2c3e50;
-      min-height: 100vh; /* Para navegadores que no entienden la variable CSS */
-      min-height: calc(var(--vh) * 100); /* Para navegadores que la entienden */
+      min-height: 100%; /* Corregido: Usar 100% o min-height: 100dvh; */
       margin: 0;
     }
+    
+    html {
+        /* Asegura que el contenedor raíz tiene al menos el alto de la pantalla */
+        min-height: 100%;
+    }
 
-    /* Menú lateral */
+
+    /* --- Estilos de Navegación Lateral (Sidebar) --- */
     .sidebar {
       height: 100%;
       width: 0;
@@ -73,14 +83,7 @@
       font-size: 30px;
     }
 
-    img {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      display: block;
-      margin: 40px auto 20px;
-    }
-
+    /* --- Estilos de Tipografía y Títulos --- */
     h1 {
       font-size: 92px;
       margin-bottom: 5px;
@@ -88,7 +91,7 @@
       color: #000000;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
     }
-
+    
     h2 {
       margin-top: 0;
       font-size: 24px;
@@ -97,6 +100,14 @@
       margin-bottom: 30px;
     }
 
+    .chewy-regular {
+      line-height: 0.9; 
+      font-family: "Chewy", system-ui;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* --- Estilos de Cards (Adopta un Húmedo) --- */
     .botones-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -106,25 +117,15 @@
       padding: 0 10px;
     }
 
-    /* --- ESTILOS MARCO ROJO Y ETIQUETA (MODIFICADO) --- */
     .card-wrapper {
       position: relative;
-      
-      /* CAMBIO CLAVE: Borde transparente por defecto.
-         Usamos transparent en lugar de 'none' para que el borde ocupe espacio
-         y no haya saltos bruscos cuando aparezca el color. */
       border: 3px solid transparent; 
-      
       border-radius: 20px;
       padding: 8px;
       margin-top: 10px;
-      
-      /* Transición suave para cuando aparezca el color rojo */
       transition: border-color 0.4s ease;
     }
 
-    /* CAMBIO: Cuando hacemos hover o tiene la clase .is-flipped, 
-       el borde se vuelve rojo */
     .card-wrapper:hover,
     .card-wrapper.is-flipped {
       border-color: #e74c3c;
@@ -143,21 +144,16 @@
       font-size: 22px;
       z-index: 5;
       white-space: nowrap;
-      
-      /* Oculto por defecto */
       opacity: 0; 
       transition: opacity 0.4s ease, transform 0.4s ease;
       pointer-events: none; 
     }
     
-    /* Mostrar la etiqueta cuando el Wrapper tiene hover o la clase flipped */
     .card-wrapper:hover .card-label,
     .card-wrapper.is-flipped .card-label {
       opacity: 1;
       transform: translateX(-50%) scale(1.1); 
     }
-
-    /* ---------------------------------------------------- */
 
     .card {
       width: 100%;
@@ -203,7 +199,7 @@
       background-position: center;
       background-repeat: no-repeat;
       background-blend-mode: overlay; 
-      background-color: rgba(41, 128, 185, 0.1);
+      background-color: rgba(41, 128, 185, 0.5); /* Aumentado a 0.5 para mejor contraste */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -212,7 +208,7 @@
       box-sizing: border-box;
     }
 
-    /* Efecto de giro y reducción de tamaño al hacer HOVER en el WRAPPER */
+    /* Efectos al Girar/Hover */
     .card-wrapper:hover .card .front,
     .card-wrapper.is-flipped .card .front {
       transform: rotateY(180deg);
@@ -223,14 +219,12 @@
       transform: rotateY(360deg);
     }
 
-    /* REDUCCIÓN DE TAMAÑO: Se activa junto con el borde rojo */
     .card-wrapper:hover .card,
     .card-wrapper.is-flipped .card {
        transform: scale(0.92); 
     }
 
-    /* ------------------------------------------------------------- */
-
+    /* --- Estilos de Calendario y Navegación --- */
     .navegacion {
       margin: 20px 0 10px;
       display: flex;
@@ -254,9 +248,23 @@
       user-select: none;
     }
 
-    .navegacion button:hover {
+    .flecha {
+      padding: 10px 18px;
+      font-size: 28px;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(41,128,185,0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    .flecha:hover {
       background-color: #1f5a8a;
-      box-shadow: 0 6px 12px rgba(31, 90, 138, 0.5);
+      transform: scale(1.15);
     }
 
     #mes-anio {
@@ -301,11 +309,6 @@
       letter-spacing: 0.05em;
     }
 
-    td:hover:not(.evento):not(.hoy) {
-      background-color: #ecf0f1;
-      cursor: default;
-    }
-
     .hoy {
       background-color: #27ae60;
       color: white;
@@ -319,11 +322,6 @@
       cursor: pointer;
       font-weight: 700;
       box-shadow: 0 0 8px #e74c3caa;
-    }
-
-    .evento:hover {
-      background-color: #c0392b;
-      box-shadow: 0 0 12px #c0392baa;
     }
 
     .tooltip {
@@ -351,6 +349,7 @@
       opacity: 1;
     }
 
+    /* --- Estilos de Lista de Eventos --- */
     #lista-eventos {
       margin: 40px auto 0;
       max-width: 400px;
@@ -381,15 +380,6 @@
       overflow-y: auto;
     }
 
-    #lista-eventos ul::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #lista-eventos ul::-webkit-scrollbar-thumb {
-      background-color: #2980b9aa;
-      border-radius: 6px;
-    }
-
     #lista-eventos li {
       background: #3498db;
       color: white;
@@ -402,18 +392,13 @@
       cursor: default;
     }
 
-    #lista-eventos li:hover {
-      background-color: #217dbb;
-      box-shadow: 0 6px 14px rgba(33, 125, 187, 0.4);
-    }
-
+    /* --- Media Queries (Responsividad) --- */
     @media (max-width: 1024px) {
       .botones-grid {
         grid-template-columns: repeat(2, 1fr); 
       }
       h1 { font-size: 68px; }
       h2 { font-size: 20px; }
-      .boton-web { height: 120px; font-size: 18px; }
       #mes-anio { font-size: 22px; }
       table { width: 100%; font-size: 14px; }
       #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
@@ -431,33 +416,6 @@
         display: inline-block; 
       }
     }
-
-    .chewy-regular {
-      line-height: 0.9; 
-      font-family: "Chewy", system-ui;
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    .flecha {
-      padding: 10px 18px;
-      font-size: 28px;
-      border: none;
-      background-color: #2980b9;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(41,128,185,0.3);
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      font-weight: bold;
-      user-select: none;
-    }
-
-    .flecha:hover {
-      background-color: #1f5a8a;
-      transform: scale(1.15);
-    }
-
   </style>
 </head>
 <body>
@@ -473,16 +431,16 @@
 
   <div class="content-wrapper">
 
-<h1 class="chewy-regular" style="color:#000000;">
-  <span style="font-size:120px; display:block; color: #c41a1a;">ONG</span> 
-  <span style="font-size:85px; display:block;" class="separar-palabras">
-    <span>Brigada</span>
-    <span>dos Húmedos</span>
-  </span>
-</h1>
+    <h1 class="chewy-regular" style="color:#000000;">
+      <span style="font-size:120px; display:block; color: #e74c3c;">ONG</span> 
+      <span style="font-size:85px; display:block;" class="separar-palabras">
+        <span>Brigada</span>
+        <span>dos Húmedos</span>
+      </span>
+    </h1>
 
     <h3>
-      <span class="chewy-regular" style="font-size:60px; color:#c41a1a;">
+      <span class="chewy-regular" style="font-size:60px; color:#e74c3c;">
         Adopta un Húmedo
       </span>
     </h3>
@@ -490,86 +448,6 @@
     <div class="botones-grid">
       
       <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
-          <div class="front" style="background-image: url('mordisquitos.gif'); background-position: center 75%;">Adri</div>
-          <div class="back" style="background-image: url('adri.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
-          <div class="front" style="background-image: url('angel2.jpg'); background-position: center 40%;">Angel</div>
-          <div class="back" style="background-image: url('angel.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/reyseppi/" target="_blank">
-          <div class="front" style="background-image: url('seppi2.jpg'); background-position: center 50%;">Seppi</div>
-          <div class="back" style="background-image: url('seppi.jpeg');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/srta.hipsta/" target="_blank">
-          <div class="front" style="background-image: url('Lucia.jpg'); background-position: center 50%;">Lucia</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/crissvr_/" target="_blank">
-          <div class="front" style="background-image: url('cris.jpg'); background-position: center 50%;">Cris</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/feijoo_alba/" target="_blank">
-          <div class="front" style="background-image: url('alba.jpg'); background-position: center 50%;">Alba</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
-      </div>
-
-    <div class="card-wrapper">
         <span class="card-label">Pick me</span>
         <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
           <div class="front" style="background-image: url('mordisquitos.gif'); background-position: center 75%;">Adri</div>
@@ -582,36 +460,74 @@
       <div class="card-wrapper">
         <span class="card-label">Pick me</span>
         <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
-          <div class="front" style="background-image: url('vela.gif'); background-position: center 40%;">Angel</div>
+          <div class="front" style="background-image: url('angel2.jpg'); background-position: center 40%;">Angel</div>
           <div class="back" style="background-image: url('angel.jpeg');">
-            <p>Experto en risas y caos semanal.</p>
+            <p>El hombre de hielo</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card-wrapper">
+        <span class="card-label">Pick me</span>
+        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
+          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>El jefe de operaciones</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card-wrapper">
+        <span class="card-label">Pick me</span>
+        <a class="card" href="https://www.instagram.com/reyseppi/" target="_blank">
+          <div class="front" style="background-image: url('seppi2.jpg'); background-position: center 50%;">Seppi</div>
+          <div class="back" style="background-image: url('seppi.jpeg');">
+            <p>El estratega</p>
           </div>
         </a>
       </div>
       
+      <div class="card-wrapper">
+        <span class="card-label">Pick me</span>
+        <a class="card" href="https://www.instagram.com/srta.hipsta/" target="_blank">
+          <div class="front" style="background-image: url('Lucia.jpg'); background-position: center 50%;">Lucia</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>Experta en risas y caos</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="card-wrapper">
+        <span class="card-label">Pick me</span>
+        <a class="card" href="https://www.instagram.com/crissvr_/" target="_blank">
+          <div class="front" style="background-image: url('cris.jpg'); background-position: center 50%;">Cris</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>La alegría de la huerta</p>
+          </div>
+        </a>
+      </div>
 
+      <div class="card-wrapper">
+        <span class="card-label">Pick me</span>
+        <a class="card" href="https://www.instagram.com/feijoo_alba/" target="_blank">
+          <div class="front" style="background-image: url('alba.jpg'); background-position: center 50%;">Alba</div>
+          <div class="back" style="background-image: url('vela.gif');">
+            <p>La organizadora</p>
+          </div>
+        </a>
+      </div>
       
       <div class="card-wrapper">
         <span class="card-label">Pick me</span>
         <a class="card" href="https://www.instagram.com/peerezpaula_/" target="_blank">
           <div class="front" style="background-image: url('Paula.gif.gif'); background-position: center 50%;">Paula</div>
           <div class="back" style="background-image: url('paula.jpg');">
-            <p></p>
+            <p>La risueña</p>
           </div>
         </a>
       </div>
       
-      <div class="card-wrapper">
-        <span class="card-label">Pick me</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p>Experto en risas y caos semanal.</p>
-          </div>
-        </a>
       </div>
-      
-    </div>
 
     <div class="navegacion">
       <button class="flecha" onclick="cambiarMes(-1)">❮</button>
@@ -650,7 +566,7 @@
         observer.observe(wrapper);
       });
 
-      // --- RESTO DEL JS ---
+      // --- RESTO DEL JS (CALENDARIO) ---
 
       const eventos = {
         "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
@@ -746,24 +662,6 @@
       function closeNav() {
         document.getElementById("sidebar").style.width = "0";
       }
-
-        /* Solución JS para navegadores que no soportan dvh */
-function setViewportHeight() {
-    // 1. Obtiene la altura real de la ventana de visualización
-    let vh = window.innerHeight * 0.01;
-    
-    // 2. Establece el valor como una variable CSS
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-// Ejecutar al cargar y al cambiar el tamaño de la ventana
-window.addEventListener('load', setViewportHeight);
-window.addEventListener('resize', setViewportHeight);
-setViewportHeight(); // Ejecutar inmediatamente
-
-// Y en tu CSS, cambia min-height: 100vh; por esto:
-// min-height: 100vh;
-// min-height: calc(var(--vh, 1vh) * 100);
     </script>
 </body>
 </html>
