@@ -4,7 +4,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
-  
+   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ONG Os Húmedos</title>
@@ -13,7 +13,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 1px 20px 20px 20px;
       text-align: center;
-      /* Fondo casi blanco (0.9), por lo que usaremos blanco para cortar la linea del borde */
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('41515.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -97,65 +96,72 @@
     .botones-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 30px; /* Aumentado un poco el gap para los bordes */
+      gap: 30px;
       max-width: 700px;
       margin: 40px auto;
       padding: 0 10px;
     }
 
-    /* --- ESTILOS NUEVOS PARA EL MARCO ROJO Y ETIQUETA --- */
+    /* --- ESTILOS MARCO ROJO Y ETIQUETA (MODIFICADO) --- */
     .card-wrapper {
       position: relative;
-      border: 3px solid #e74c3c; /* Color rojo */
+      
+      /* CAMBIO CLAVE: Borde transparente por defecto.
+         Usamos transparent en lugar de 'none' para que el borde ocupe espacio
+         y no haya saltos bruscos cuando aparezca el color. */
+      border: 3px solid transparent; 
+      
       border-radius: 20px;
-      padding: 8px; /* Espacio entre el borde rojo y la carta */
-      margin-top: 10px; /* Espacio extra arriba para la etiqueta */
+      padding: 8px;
+      margin-top: 10px;
+      
+      /* Transición suave para cuando aparezca el color rojo */
+      transition: border-color 0.4s ease;
+    }
+
+    /* CAMBIO: Cuando hacemos hover o tiene la clase .is-flipped, 
+       el borde se vuelve rojo */
+    .card-wrapper:hover,
+    .card-wrapper.is-flipped {
+      border-color: #e74c3c;
     }
 
     .card-label {
       position: absolute;
-      top: -18px; /* Sube el texto para que quede sobre la línea */
+      top: -18px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #ffffff; /* Fondo blanco para tapar la línea roja */
-      padding: 2px 12px; /* Reducción: 2px arriba/abajo, 12px izquierda/derecha */
-      line-height: 0.9;  /* Reduce el espacio extra que la fuente añade automáticamente */
-      color: #e74c3c; /* Texto rojo */
+      background-color: #ffffff;
+      padding: 2px 12px;
+      line-height: 0.9;
+      color: #e74c3c;
       font-family: "Chewy", system-ui;
       font-size: 22px;
       z-index: 5;
       white-space: nowrap;
-    }
-    /* ---------------------------------------------------- */
-
-    .boton-web {
-      display: flex;
-      align-items: top;
-      justify-content: center;
-      background-size: cover;
-      background-position: center;
-      color: white;
-      font-size: 30px;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 14px;
-      height: 250px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-    }
-
-    .boton-web:hover {
-      transform: scale(1.03);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      
+      /* Oculto por defecto */
+      opacity: 0; 
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none; 
     }
     
+    /* Mostrar la etiqueta cuando el Wrapper tiene hover o la clase flipped */
+    .card-wrapper:hover .card-label,
+    .card-wrapper.is-flipped .card-label {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.1); 
+    }
+
+    /* ---------------------------------------------------- */
+
     .card {
       width: 100%;
       height: 250px;
       perspective: 1000px;
       text-decoration: none;
-      display: block; /* Asegura que ocupe el wrapper */
+      display: block;
+      transition: transform 0.6s; 
     }
 
     .card > div {
@@ -202,25 +208,24 @@
       box-sizing: border-box;
     }
 
-    /* Efecto de giro HOVER (Para escritorio con ratón) */
-    .card:hover .front,
-    .card:active .front {
+    /* Efecto de giro y reducción de tamaño al hacer HOVER en el WRAPPER */
+    .card-wrapper:hover .card .front,
+    .card-wrapper.is-flipped .card .front {
       transform: rotateY(180deg);
     }
 
-    .card:hover .back,
-    .card:active .back {
+    .card-wrapper:hover .card .back,
+    .card-wrapper.is-flipped .card .back {
       transform: rotateY(360deg);
     }
 
-    /* Efecto de giro activado por SCROLL (Clase .is-flipped) */
-    .card.is-flipped .front {
-      transform: rotateY(180deg);
+    /* REDUCCIÓN DE TAMAÑO: Se activa junto con el borde rojo */
+    .card-wrapper:hover .card,
+    .card-wrapper.is-flipped .card {
+       transform: scale(0.92); 
     }
 
-    .card.is-flipped .back {
-      transform: rotateY(360deg);
-    }
+    /* ------------------------------------------------------------- */
 
     .navegacion {
       margin: 20px 0 10px;
@@ -619,37 +624,29 @@
 
     <script>
 
-      // --- CÓDIGO ACTUALIZADO PARA EFECTO "ECUADOR" ---
+      // --- CÓDIGO JS QUE GESTIONA EL GIRO EN SCROLL ---
       
       const observerOptions = {
         root: null, 
-        // '-50% 0px -50% 0px' significa que ignoramos el 50% de arriba y el 50% de abajo.
-        // La tarjeta solo se detectará en la línea exacta del centro.
         rootMargin: '-50% 0px -50% 0px', 
-        
-        // threshold 0 significa "en cuanto toque esa línea central, actívate"
         threshold: 0 
       };
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          // Si la tarjeta entra en la "franja central"
           if (entry.isIntersecting) {
             entry.target.classList.add('is-flipped');
           } else {
-            // Si sale de la franja central (hacia arriba o hacia abajo)
             entry.target.classList.remove('is-flipped');
           }
         });
       }, observerOptions);
 
-      // Importante: El script busca .card, que ahora están dentro de los wrappers. 
-      // Esto funciona perfectamente sin cambiar el JS.
-      document.querySelectorAll('.card').forEach(card => {
-        observer.observe(card);
+      document.querySelectorAll('.card-wrapper').forEach(wrapper => {
+        observer.observe(wrapper);
       });
 
-      // --- FIN CÓDIGO ACTUALIZADO ---
+      // --- RESTO DEL JS ---
 
       const eventos = {
         "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
