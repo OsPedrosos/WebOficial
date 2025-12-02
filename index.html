@@ -9,41 +9,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ONG Os Húmedos</title>
   <style>
-    /* --- SOLUCIÓN DEFINITIVA PARA EL FONDO MÓVIL --- */
-    
-    /* 1. Quitamos el fondo del body y lo dejamos transparente */
+    /* --- FONDO FIJO OPTIMIZADO PARA MÓVIL --- */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 1px 20px 20px 20px;
       text-align: center;
       color: #2c3e50;
       margin: 0;
-      background: transparent; /* Importante */
+      background: transparent;
       min-height: 100vh;
     }
 
-    /* 2. Creamos una clase para el div que hará de fondo */
     #fondo-fijo {
-      position: fixed; /* Se queda quieto */
+      position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -9999; /* Se va al fondo del todo */
-      
-      /* Definimos aquí la imagen y el degradado */
+      z-index: -9999;
       background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
                   url('doodles.png') no-repeat center center;
       background-size: cover;
-      
-      /* TRUCOS DE RENDIMIENTO PARA MÓVIL: */
-      pointer-events: none; /* El click pasa a través de él */
-      transform: translateZ(0); /* Fuerza aceleración de hardware (evita saltos) */
-      will-change: transform; /* Avisa al navegador que no lo repinte */
+      pointer-events: none;
+      transform: translateZ(0);
+      will-change: transform;
     }
 
-    /* ----------------------------------------------- */
-
+    /* --- SIDEBAR --- */
     .sidebar {
       height: 100%;
       width: 0;
@@ -91,14 +83,7 @@
       font-size: 30px;
     }
 
-    img {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      display: block;
-      margin: 40px auto 20px;
-    }
-
+    /* --- TIPOGRAFÍA --- */
     h1 {
       font-size: 92px;
       margin-bottom: 5px;
@@ -115,6 +100,14 @@
       margin-bottom: 30px;
     }
 
+    .chewy-regular {
+      line-height: 0.9; 
+      font-family: "Chewy", system-ui;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* --- GRID Y CARDS --- */
     .botones-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -228,6 +221,7 @@
        transform: scale(0.92); 
     }
 
+    /* --- NAVEGACIÓN Y CALENDARIO --- */
     .navegacion {
       margin: 20px 0 10px;
       display: flex;
@@ -414,13 +408,6 @@
       }
     }
 
-    .chewy-regular {
-      line-height: 0.9; 
-      font-family: "Chewy", system-ui;
-      font-weight: 400;
-      font-style: normal;
-    }
-
     .flecha {
       padding: 10px 18px;
       font-size: 28px;
@@ -439,12 +426,12 @@
       background-color: #1f5a8a;
       transform: scale(1.15);
     }
-
   </style>
 </head>
 <body>
 
   <div id="fondo-fijo"></div>
+
   <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="index.html">Inicio</a>
@@ -470,131 +457,7 @@
       </span>
     </h3>
 
-    <div class="botones-grid">
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
-          <div class="front" style="background-image: url('mordisquitos.gif'); background-position: center 75%;">Adri</div>
-          <div class="back" style="background-image: url('adri.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
-          <div class="front" style="background-image: url('angel.gif'); background-position: center 1%;">Angel</div>
-          <div class="back" style="background-image: url('angel.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.gif'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('raul.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/reyseppi/" target="_blank">
-          <div class="front" style="background-image: url('seppi.gif'); background-position: center 50%;">Seppi</div>
-          <div class="back" style="background-image: url('seppi.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/srta.hipsta/" target="_blank">
-          <div class="front" style="background-image: url('lucia.gif'); background-position: center 1%;">Lucia</div>
-          <div class="back" style="background-image: url('Lucia.jpg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/crissvr_/" target="_blank">
-          <div class="front" style="background-image: url('cris.jpg'); background-position: center 50%;">Cris</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/feijoo_alba/" target="_blank">
-          <div class="front" style="background-image: url('alba.jpg'); background-position: center 50%;">Alba</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-    <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/adripedrossa/" target="_blank">
-          <div class="front" style="background-image: url('mordisquitos.gif'); background-position: center 75%;">Adri</div>
-          <div class="back" style="background-image: url('adri.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/lorenzoangel_/" target="_blank">
-          <div class="front" style="background-image: url('vela.gif'); background-position: center 40%;">Angel</div>
-          <div class="back" style="background-image: url('angel.jpeg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/peerezpaula_/" target="_blank">
-          <div class="front" style="background-image: url('Paula.gif.gif'); background-position: center 50%;">Paula</div>
-          <div class="back" style="background-image: url('paula.jpg');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-      <div class="card-wrapper">
-        <span class="card-label">Adoptame</span>
-        <a class="card" href="https://www.instagram.com/raul8100/" target="_blank">
-          <div class="front" style="background-image: url('raul.jpeg'); background-position: center 50%;">Raul</div>
-          <div class="back" style="background-image: url('vela.gif');">
-            <p></p>
-          </div>
-        </a>
-      </div>
-      
-    </div>
+    <div class="botones-grid" id="grid-miembros"></div>
 
     <div class="navegacion">
       <button class="flecha" onclick="cambiarMes(-1)">❮</button>
@@ -610,8 +473,54 @@
     </div>
 
     <script>
+      // --- DATOS DE LOS MIEMBROS (EDITA ESTO PARA CAMBIAR PERSONAS) ---
+      // IMPORTANTE: 'posicion' controla background-position (ej: 'center 75%')
+      const miembros = [
+        { nombre: 'Adri',   imgFront: 'mordisquitos.gif', imgBack: 'adri.jpeg',  link: 'https://www.instagram.com/adripedrossa/',  posicion: 'center 75%' },
+        { nombre: 'Angel',  imgFront: 'angel.gif',        imgBack: 'angel.jpeg', link: 'https://www.instagram.com/lorenzoangel_/', posicion: 'center 1%' },
+        { nombre: 'Raul',   imgFront: 'raul.gif',         imgBack: 'raul.jpeg',  link: 'https://www.instagram.com/raul8100/',      posicion: 'center 50%' },
+        { nombre: 'Seppi',  imgFront: 'seppi.gif',        imgBack: 'seppi.jpeg', link: 'https://www.instagram.com/reyseppi/',      posicion: 'center 50%' },
+        { nombre: 'Lucia',  imgFront: 'lucia.gif',        imgBack: 'Lucia.jpg',  link: 'https://www.instagram.com/srta.hipsta/',   posicion: 'center 1%' },
+        { nombre: 'Cris',   imgFront: 'cris.gif',         imgBack: 'cris.jpg',   link: 'https://www.instagram.com/crissvr_/',      posicion: 'center 50%' },
+        { nombre: 'Alba',   imgFront: 'alba.gif',         imgBack: 'alba.jpg',   link: 'https://www.instagram.com/feijoo_alba/',   posicion: 'center 50%' },
+        { nombre: 'Carlos', imgFront: 'carlos.gif',       imgBack: 'carlos.jpg', link: 'https://www.instagram.com/raul8100/',      posicion: 'center 50%' },
+        { nombre: 'Marta',  imgFront: 'marta.gif',        imgBack: 'marta.jpg',  link: 'https://www.instagram.com/adripedrossa/',  posicion: 'center 75%' },
+        { nombre: '----',   imgFront: 'sara.gif',         imgBack: 'sara.jpg',   link: 'https://www.instagram.com/lorenzoangel_/', posicion: 'center 40%' },
+        { nombre: 'Paula',  imgFront: 'Paula.gif.gif',    imgBack: 'paula.jpg',  link: 'https://www.instagram.com/peerezpaula_/',  posicion: 'center 50%' },
+        { nombre: 'D-----', imgFront: 'david.gif',        imgBack: 'david.jpg',  link: 'https://www.instagram.com/raul8100/',      posicion: 'center 50%' }
+      ];
 
-      // --- CÓDIGO JS QUE GESTIONA EL GIRO EN SCROLL ---
+      // --- FUNCIÓN PARA MEZCLAR ARRAY (Algoritmo Fisher-Yates) ---
+      function mezclarArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      // --- GENERAR LAS CARDS EN EL HTML ---
+      const gridContainer = document.getElementById('grid-miembros');
+      const miembrosMezclados = mezclarArray(miembros);
+
+      let htmlCards = '';
+      miembrosMezclados.forEach(m => {
+        htmlCards += `
+          <div class="card-wrapper">
+            <span class="card-label">Adoptame</span>
+            <a class="card" href="${m.link}" target="_blank">
+              <div class="front" style="background-image: url('${m.imgFront}'); background-position: ${m.posicion};">${m.nombre}</div>
+              <div class="back" style="background-image: url('${m.imgBack}');">
+                <p></p>
+              </div>
+            </a>
+          </div>
+        `;
+      });
+      gridContainer.innerHTML = htmlCards;
+
+      // --- CÓDIGO JS QUE GESTIONA EL GIRO EN SCROLL (OBSERVER) ---
+      // Importante: Ejecutar esto DESPUÉS de generar el HTML
       
       const observerOptions = {
         root: null, 
@@ -629,11 +538,12 @@
         });
       }, observerOptions);
 
+      // Seleccionamos las cards que acabamos de crear
       document.querySelectorAll('.card-wrapper').forEach(wrapper => {
         observer.observe(wrapper);
       });
 
-      // --- RESTO DEL JS ---
+      // --- RESTO DEL JS (CALENDARIO) ---
 
       const eventos = {
         "2025-11-29": { etiqueta: "Cumpleaños Tapu", ubicacion: "Ao Lado da Pedrosa" },
