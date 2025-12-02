@@ -9,21 +9,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ONG Os Húmedos</title>
   <style>
-      :root {
-  --vh: 1vh; /* Valor por defecto */
-}
+    /* --- CORRECCIÓN DEL FONDO PARA MÓVILES --- */
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 1px 20px 20px 20px;
       text-align: center;
-      background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
-                  url('doodles.png') no-repeat center center fixed;
-      background-size: cover;
       color: #2c3e50;
-      min-height: 100vh; /* Para navegadores que no entienden la variable CSS */
-      min-height: calc(var(--vh) * 100); /* Para navegadores que la entienden */
       margin: 0;
+      position: relative; /* Necesario para que el ::before funcione */
+      min-height: 100dvh; /* Altura dinámica moderna para móviles */
     }
+
+    /* TRUCO: Creamos una capa fija detrás del cuerpo.
+       Esto evita que la imagen salte al hacer scroll en el móvil */
+    body::before {
+      content: "";
+      position: fixed; /* Se queda quieto independientemente del scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Se pone detrás de todo el contenido */
+      
+      /* Aquí definimos la imagen y el gradiente */
+      background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.9)),
+                  url('doodles.png') no-repeat center center;
+      background-size: cover;
+      
+      /* Optimización para móviles */
+      will-change: transform; 
+    }
+
+    /* ----------------------------------------- */
 
     /* Menú lateral */
     .sidebar {
@@ -106,25 +124,16 @@
       padding: 0 10px;
     }
 
-    /* --- ESTILOS MARCO ROJO Y ETIQUETA (MODIFICADO) --- */
+    /* --- ESTILOS MARCO ROJO Y ETIQUETA --- */
     .card-wrapper {
       position: relative;
-      
-      /* CAMBIO CLAVE: Borde transparente por defecto.
-         Usamos transparent en lugar de 'none' para que el borde ocupe espacio
-         y no haya saltos bruscos cuando aparezca el color. */
       border: 3px solid transparent; 
-      
       border-radius: 20px;
       padding: 8px;
       margin-top: 10px;
-      
-      /* Transición suave para cuando aparezca el color rojo */
       transition: border-color 0.4s ease;
     }
 
-    /* CAMBIO: Cuando hacemos hover o tiene la clase .is-flipped, 
-       el borde se vuelve rojo */
     .card-wrapper:hover,
     .card-wrapper.is-flipped {
       border-color: #e74c3c;
@@ -143,14 +152,11 @@
       font-size: 22px;
       z-index: 5;
       white-space: nowrap;
-      
-      /* Oculto por defecto */
       opacity: 0; 
       transition: opacity 0.4s ease, transform 0.4s ease;
       pointer-events: none; 
     }
     
-    /* Mostrar la etiqueta cuando el Wrapper tiene hover o la clase flipped */
     .card-wrapper:hover .card-label,
     .card-wrapper.is-flipped .card-label {
       opacity: 1;
@@ -184,6 +190,7 @@
       color: white;
       font-size: 30px; 
       font-weight: bold;
+      /* Aquí ajustas la posición del texto (Adri, Angel, etc) */
       padding: 5px 20px 20px 20px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
@@ -203,7 +210,7 @@
       background-position: center;
       background-repeat: no-repeat;
       background-blend-mode: overlay; 
-      background-color: rgba(41, 128, 185, 0.1);
+      background-color: rgba(41, 128, 185, 0.5); /* He subido un poco la opacidad para que se lea mejor el texto */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -212,7 +219,7 @@
       box-sizing: border-box;
     }
 
-    /* Efecto de giro y reducción de tamaño al hacer HOVER en el WRAPPER */
+    /* Efectos de giro */
     .card-wrapper:hover .card .front,
     .card-wrapper.is-flipped .card .front {
       transform: rotateY(180deg);
@@ -223,7 +230,6 @@
       transform: rotateY(360deg);
     }
 
-    /* REDUCCIÓN DE TAMAÑO: Se activa junto con el borde rojo */
     .card-wrapper:hover .card,
     .card-wrapper.is-flipped .card {
        transform: scale(0.92); 
@@ -413,7 +419,6 @@
       }
       h1 { font-size: 68px; }
       h2 { font-size: 20px; }
-      .boton-web { height: 120px; font-size: 18px; }
       #mes-anio { font-size: 22px; }
       table { width: 100%; font-size: 14px; }
       #lista-eventos { max-width: 100%; padding: 15px; font-size: 14px; }
@@ -473,13 +478,13 @@
 
   <div class="content-wrapper">
 
-<h1 class="chewy-regular" style="color:#000000;">
-  <span style="font-size:120px; display:block; color: #c41a1a;">ONG</span> 
-  <span style="font-size:85px; display:block;" class="separar-palabras">
-    <span>Brigada</span>
-    <span>dos Húmedos</span>
-  </span>
-</h1>
+    <h1 class="chewy-regular" style="color:#000000;">
+      <span style="font-size:120px; display:block; color: #c41a1a;">ONG</span> 
+      <span style="font-size:85px; display:block;" class="separar-palabras">
+        <span>Brigada</span>
+        <span>dos Húmedos</span>
+      </span>
+    </h1>
 
     <h3>
       <span class="chewy-regular" style="font-size:60px; color:#c41a1a;">
@@ -746,24 +751,6 @@
       function closeNav() {
         document.getElementById("sidebar").style.width = "0";
       }
-
-        /* Solución JS para navegadores que no soportan dvh */
-function setViewportHeight() {
-    // 1. Obtiene la altura real de la ventana de visualización
-    let vh = window.innerHeight * 0.01;
-    
-    // 2. Establece el valor como una variable CSS
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-// Ejecutar al cargar y al cambiar el tamaño de la ventana
-window.addEventListener('load', setViewportHeight);
-window.addEventListener('resize', setViewportHeight);
-setViewportHeight(); // Ejecutar inmediatamente
-
-// Y en tu CSS, cambia min-height: 100vh; por esto:
-// min-height: 100vh;
-// min-height: calc(var(--vh, 1vh) * 100);
     </script>
 </body>
 </html>
