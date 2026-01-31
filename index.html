@@ -484,7 +484,7 @@
         { nombre: 'Cris',   imgFront: 'cris.gif',         imgBack: 'cris.jpg',   link: 'https://www.instagram.com/crissvr_/',      posicion: 'center 50%' },
         { nombre: 'Alba',   imgFront: 'alba.gif',         imgBack: 'alba.jpg',   link: 'https://www.instagram.com/feijoo_alba/',   posicion: 'center 50%' },
         { nombre: 'Carlos', imgFront: 'tapu.gif',       imgBack: 'carlos.jpg', link: 'https://www.instagram.com/carlospalomanes8/',      posicion: 'center 50%' },
-        { nombre: 'Marta',  imgFront: 'marta.gif',        imgBack: 'marta.jpg',  link: 'https://www.instagram.com/martaa_23/',  posicion: 'center 75%' },
+        { nombre: 'Marta',  imgFront: 'marta.gif',        imgBack: 'marta.jpg',  link: 'https://www.instagram.com/martaa_23/',  posicion: 'center 75%', ajusteGif: 20 },
         { nombre: 'Sara',   imgFront: 'sara.gif',         imgBack: 'sara.jpg',   link: 'https://www.instagram.com/saralorenzo9/', posicion: 'center 40%' },
         { nombre: 'Paula',  imgFront: 'Paula.gif.gif',    imgBack: 'paula.jpg',  link: 'https://www.instagram.com/peerezpaula_/',  posicion: 'center 50%' },
         { nombre: 'David', imgFront: 'david.gif',        imgBack: 'david.jpg',  link: 'https://www.instagram.com/davidlorenzo7/',      posicion: 'center 50%' }
@@ -499,38 +499,37 @@
         return array;
       }
 
-// --- GENERAR LAS CARDS EN EL HTML ---
+// --- GENERAR LAS CARDS ---
 const gridContainer = document.getElementById('grid-miembros');
 
-// 1. Buscamos a Adri específicamente
+// Separamos a Adri para que sea el jefe
 const adri = miembros.find(m => m.nombre === 'Adri');
-
-// 2. Creamos una lista con todos los demás (filtrando a Adri)
-const restoDeMiembros = miembros.filter(m => m.nombre !== 'Adri');
-
-// 3. Mezclamos solo a los demás
-const restoMezclado = mezclarArray(restoDeMiembros);
-
-// 4. Creamos la lista final: Adri el primero + los demás mezclados
-const miembrosFinales = [adri, ...restoMezclado];
+const resto = miembros.filter(m => m.nombre !== 'Adri');
+const listaFinal = [adri, ...mezclarArray(resto)];
 
 let htmlCards = '';
-// IMPORTANTE: Ahora usamos 'miembrosFinales' para el bucle
-miembrosFinales.forEach(m => {
+
+listaFinal.forEach(m => {
+  // Si te olvidas de poner ajusteGif en alguno, por defecto será 50 (centrado)
+  const posVertical = m.ajusteGif !== undefined ? m.ajusteGif : 50;
+
   htmlCards += `
     <div class="card-wrapper">
       <span class="card-label">Adoptame</span>
       <a class="card" href="${m.link}" target="_blank">
-        <div class="front" style="background-image: url('${m.imgFront}'); background-position: ${m.posicion};">${m.nombre}</div>
-        <div class="back" style="background-image: url('${m.imgBack}');">
+        <div class="front" style="background-image: url('${m.imgFront}'); background-position: center ${posVertical}%;">
+          ${m.nombre}
+        </div>
+        
+        <div class="back" style="background-image: url('${m.imgBack}'); background-position: center center;">
           <p></p>
         </div>
       </a>
     </div>
   `;
 });
-gridContainer.innerHTML = htmlCards;;
 
+gridContainer.innerHTML = htmlCards;
       // --- CÓDIGO JS QUE GESTIONA EL GIRO EN SCROLL (OBSERVER) ---
       // Importante: Ejecutar esto DESPUÉS de generar el HTML
       
